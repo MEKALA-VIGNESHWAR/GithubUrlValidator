@@ -1,0 +1,127 @@
+package com.example.demo.entity;
+
+import com.example.demo.enums.SubmissionStatus;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "submissions")
+public class Submission {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String teamName;
+
+    @Column(nullable = false)
+    private String projectTitle;
+
+    @Column(nullable = false)
+    private String githubRepoUrl;
+
+    private String leaderName;
+
+    private String email;
+
+    private String college;
+
+    @Column(length = 2000)
+    private String description;
+
+    private String techStack;
+
+    private String demoVideoUrl;
+
+    private String pptUrl;
+
+    private String pdfUrl;
+
+    private LocalDateTime submittedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SubmissionStatus status;
+
+    // GitHub API metadata
+    private String repoOwner;
+    private String repoName;
+    private Integer stars;
+    private Integer forks;
+    private Integer openIssues;
+    private String lastCommitDate;
+
+    public Submission() {
+        this.submittedAt = LocalDateTime.now();
+        this.status = SubmissionStatus.PENDING;
+    }
+
+    public Submission(String teamName, String projectTitle, String githubRepoUrl) {
+        this.teamName = teamName;
+        this.projectTitle = projectTitle;
+        this.githubRepoUrl = githubRepoUrl;
+        this.submittedAt = LocalDateTime.now();
+        this.status = SubmissionStatus.PENDING;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getTeamName() { return teamName; }
+    public void setTeamName(String teamName) { this.teamName = teamName; }
+
+    public String getProjectTitle() { return projectTitle; }
+    public void setProjectTitle(String projectTitle) { this.projectTitle = projectTitle; }
+
+    public String getGithubRepoUrl() { return githubRepoUrl; }
+    public void setGithubRepoUrl(String githubRepoUrl) { this.githubRepoUrl = githubRepoUrl; }
+
+    public String getLeaderName() { return leaderName; }
+    public void setLeaderName(String leaderName) { this.leaderName = leaderName; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getCollege() { return college; }
+    public void setCollege(String college) { this.college = college; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getTechStack() { return techStack; }
+    public void setTechStack(String techStack) { this.techStack = techStack; }
+
+    public String getDemoVideoUrl() { return demoVideoUrl; }
+    public void setDemoVideoUrl(String demoVideoUrl) { this.demoVideoUrl = demoVideoUrl; }
+
+    public String getPptUrl() { return pptUrl; }
+    public void setPptUrl(String pptUrl) { this.pptUrl = pptUrl; }
+
+    public String getPdfUrl() { return pdfUrl; }
+    public void setPdfUrl(String pdfUrl) { this.pdfUrl = pdfUrl; }
+
+    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
+
+    public SubmissionStatus getStatus() { return status; }
+    public void setStatus(SubmissionStatus status) { this.status = status; }
+
+    public String getRepoOwner() { return repoOwner; }
+    public void setRepoOwner(String repoOwner) { this.repoOwner = repoOwner; }
+
+    public String getRepoName() { return repoName; }
+    public void setRepoName(String repoName) { this.repoName = repoName; }
+
+    public Integer getStars() { return stars; }
+    public void setStars(Integer stars) { this.stars = stars; }
+
+    public Integer getForks() { return forks; }
+    public void setForks(Integer forks) { this.forks = forks; }
+
+    public Integer getOpenIssues() { return openIssues; }
+    public void setOpenIssues(Integer openIssues) { this.openIssues = openIssues; }
+
+    public String getLastCommitDate() { return lastCommitDate; }
+    public void setLastCommitDate(String lastCommitDate) { this.lastCommitDate = lastCommitDate; }
+}
