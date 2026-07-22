@@ -20,14 +20,10 @@ public class SubmissionRequestDTO {
             message = "Must be a valid GitHub repository URL (e.g. https://github.com/username/repository)")
     private String githubRepoUrl;
 
-    @NotBlank(message = "Leader name is required")
     private String leaderName;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Must be a valid email address")
     private String email;
 
-    @NotBlank(message = "College/Institution is required")
     private String college;
 
     @Size(max = 2000, message = "Description must not exceed 2000 characters")
@@ -37,6 +33,19 @@ public class SubmissionRequestDTO {
     private String demoVideoUrl;
     private String pptUrl;
     private String pdfUrl;
+
+    private String phoneNumber;
+    private String members;
+
+    @Size(max = 2000, message = "Problem statement must not exceed 2000 characters")
+    private String problemStatement;
+
+    private String category;
+    private String projectImageUrl;
+    private String difficulty;
+    private Integer completionRate;
+    private String judgeComment;
+    private String languagesJson;
 
     public SubmissionRequestDTO() {}
 
@@ -81,4 +90,31 @@ public class SubmissionRequestDTO {
 
     public String getPdfUrl() { return pdfUrl; }
     public void setPdfUrl(String pdfUrl) { this.pdfUrl = pdfUrl; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public String getMembers() { return members; }
+    public void setMembers(String members) { this.members = members; }
+
+    public String getProblemStatement() { return problemStatement; }
+    public void setProblemStatement(String problemStatement) { this.problemStatement = problemStatement; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getProjectImageUrl() { return projectImageUrl; }
+    public void setProjectImageUrl(String projectImageUrl) { this.projectImageUrl = projectImageUrl; }
+
+    public String getDifficulty() { return difficulty; }
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+
+    public Integer getCompletionRate() { return completionRate; }
+    public void setCompletionRate(Integer completionRate) { this.completionRate = completionRate; }
+
+    public String getJudgeComment() { return judgeComment; }
+    public void setJudgeComment(String judgeComment) { this.judgeComment = judgeComment; }
+
+    public String getLanguagesJson() { return languagesJson; }
+    public void setLanguagesJson(String languagesJson) { this.languagesJson = languagesJson; }
 }

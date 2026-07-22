@@ -3,18 +3,14 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:hackathondb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: sa
-    password: 
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+    url: jdbc:postgresql://aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres.iwaskrfqdifskxedtaol
+    password: '${SUPABASE_DB_PASSWORD:Wemmbu@!77@^}'
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -31,3 +27,20 @@ spring:
           auth: true
           starttls:
             enable: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub

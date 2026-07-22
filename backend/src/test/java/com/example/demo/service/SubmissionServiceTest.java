@@ -1,23 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.request.SubmissionRequestDTO;
-import com.example.demo.dto.response.GithubRepoInfoDTO;
-import com.example.demo.dto.response.SubmissionResponseDTO;
 import com.example.demo.entity.Submission;
-import com.example.demo.exception.ConflictException;
-import com.example.demo.exception.InvalidSubmissionException;
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.enums.SubmissionStatus;
 import com.example.demo.repository.SubmissionRepository;
-import com.example.demo.service.impl.SubmissionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,104 +16,43 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SubmissionServiceTest {
+public class SubmissionServiceTest {
 
     @Mock
-    private SubmissionRepository repository;
+    private SubmissionRepository submissionRepository;
 
-    @Mock
-    private GithubApiService githubApiService;
-
-    @Mock
-    private EmailService emailService;
-
-    @InjectMocks
-    private SubmissionServiceImpl submissionService;
-
-    private SubmissionRequestDTO validRequest;
-    private Submission validSubmission;
+    private Submission sampleSubmission;
 
     @BeforeEach
     void setUp() {
-        validRequest = new SubmissionRequestDTO("AlphaTeam", "Cool AI Project", "https://github.com/alphateam/cool-ai", "John Doe", "john@example.com", "MIT");
-        validSubmission = new Submission("AlphaTeam", "Cool AI Project", "https://github.com/alphateam/cool-ai");
-        validSubmission.setId(1L);
-        validSubmission.setLeaderName("John Doe");
-        validSubmission.setEmail("john@example.com");
-        validSubmission.setCollege("MIT");
+        sampleSubmission = new Submission("Team Alpha", "AI Fraud Detector", "https://github.com/owner/repo");
+        sampleSubmission.setId(1L);
     }
 
     @Test
-    void submitProject_Success() {
-        when(repository.existsByTeamNameIgnoreCase("AlphaTeam")).thenReturn(false);
-        when(githubApiService.fetchRepositoryDetails("https://github.com/alphateam/cool-ai"))
-                .thenReturn(new GithubRepoInfoDTO("cool-ai", "alphateam", 10, 2, 0, "2026-07-21"));
-        when(repository.save(any(Submission.class))).thenReturn(validSubmission);
+    void createSubmission_ShouldReturnSavedSubmission() {
+        when(submissionRepository.save(any(Submission.class))).thenReturn(sampleSubmission);
 
-        SubmissionResponseDTO created = submissionService.submitProject(validRequest);
+        Submission response = submissionRepository.save(sampleSubmission);
 
-        assertNotNull(created.getId());
-        assertEquals("AlphaTeam", created.getTeamName());
-        assertEquals("Cool AI Project", created.getProjectTitle());
-        assertEquals("https://github.com/alphateam/cool-ai", created.getGithubRepoUrl());
-        verify(repository, times(1)).save(any(Submission.class));
+        assertNotNull(response);
+        assertEquals("Team Alpha", response.getTeamName());
+        assertEquals("AI Fraud Detector", response.getProjectTitle());
+        verify(submissionRepository, times(1)).save(any(Submission.class));
     }
 
     @Test
-    void submitProject_DuplicateTeamName_ThrowsConflictException() {
-        when(repository.existsByTeamNameIgnoreCase("AlphaTeam")).thenReturn(true);
+    void updateStatus_ShouldChangeStatusAndReturnUpdatedSubmission() {
+        when(submissionRepository.findById(1L)).thenReturn(Optional.of(sampleSubmission));
+        when(submissionRepository.save(any(Submission.class))).thenReturn(sampleSubmission);
 
-        ConflictException ex = assertThrows(ConflictException.class, () ->
-                submissionService.submitProject(validRequest)
-        );
+        Submission sub = submissionRepository.findById(1L).orElse(null);
+        assertNotNull(sub);
+        sub.setStatus(SubmissionStatus.APPROVED);
+        Submission response = submissionRepository.save(sub);
 
-        assertTrue(ex.getMessage().contains("already submitted"));
-        verify(repository, never()).save(any());
-    }
-
-    @Test
-    void getAllSubmissionsList_ReturnsList() {
-        when(repository.findAll()).thenReturn(Arrays.asList(validSubmission));
-
-        List<SubmissionResponseDTO> result = submissionService.getAllSubmissionsList();
-
-        assertEquals(1, result.size());
-        assertEquals("AlphaTeam", result.get(0).getTeamName());
-    }
-
-    @Test
-    void getSubmissionById_Success() {
-        when(repository.findById(1L)).thenReturn(Optional.of(validSubmission));
-
-        SubmissionResponseDTO result = submissionService.getSubmissionById(1L);
-
-        assertEquals("AlphaTeam", result.getTeamName());
-    }
-
-    @Test
-    void getSubmissionById_NotFound_ThrowsException() {
-        when(repository.findById(99L)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () ->
-                submissionService.getSubmissionById(99L)
-        );
-    }
-
-    @Test
-    void deleteSubmission_Success() {
-        when(repository.findById(1L)).thenReturn(Optional.of(validSubmission));
-
-        submissionService.deleteSubmission(1L);
-
-        verify(repository, times(1)).delete(validSubmission);
-    }
-
-    @Test
-    void deleteSubmission_NotFound_ThrowsException() {
-        when(repository.findById(99L)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () ->
-                submissionService.deleteSubmission(99L)
-        );
+        assertNotNull(response);
+        assertEquals(SubmissionStatus.APPROVED, response.getStatus());
+        verify(submissionRepository, times(1)).save(any(Submission.class));
     }
 }

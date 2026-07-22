@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: hackforge_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: hackforgedb
+      MYSQL_USER: hackforge
+      MYSQL_PASSWORD: hackforgepassword
+    ports:
+      - "3306:3306"
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hackforge_backend
+    ports:
+      - "3000:3000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/hackforgedb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: hackforge
+      SPRING_DATASOURCE_PASSWORD: hackforgepassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - mysqldb
+    restart: always

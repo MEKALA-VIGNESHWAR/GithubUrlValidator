@@ -21,6 +21,15 @@ public class SubmissionMapper {
         entity.setDemoVideoUrl(dto.getDemoVideoUrl());
         entity.setPptUrl(dto.getPptUrl());
         entity.setPdfUrl(dto.getPdfUrl());
+        entity.setPhoneNumber(dto.getPhoneNumber());
+        entity.setMembers(dto.getMembers());
+        entity.setProblemStatement(dto.getProblemStatement());
+        entity.setCategory(dto.getCategory());
+        entity.setProjectImageUrl(dto.getProjectImageUrl());
+        entity.setDifficulty(dto.getDifficulty());
+        entity.setCompletionRate(dto.getCompletionRate());
+        entity.setJudgeComment(dto.getJudgeComment());
+        entity.setLanguagesJson(dto.getLanguagesJson());
         return entity;
     }
 
@@ -40,6 +49,15 @@ public class SubmissionMapper {
         dto.setDemoVideoUrl(entity.getDemoVideoUrl());
         dto.setPptUrl(entity.getPptUrl());
         dto.setPdfUrl(entity.getPdfUrl());
+        dto.setPhoneNumber(entity.getPhoneNumber());
+        dto.setMembers(entity.getMembers());
+        dto.setProblemStatement(entity.getProblemStatement());
+        dto.setCategory(entity.getCategory());
+        dto.setProjectImageUrl(entity.getProjectImageUrl());
+        dto.setDifficulty(entity.getDifficulty());
+        dto.setCompletionRate(entity.getCompletionRate());
+        dto.setJudgeComment(entity.getJudgeComment());
+        dto.setLanguagesJson(entity.getLanguagesJson());
         dto.setSubmittedAt(entity.getSubmittedAt());
         dto.setStatus(entity.getStatus());
         dto.setRepoOwner(entity.getRepoOwner());
@@ -65,5 +83,14 @@ public class SubmissionMapper {
         if (dto.getDemoVideoUrl() != null) entity.setDemoVideoUrl(dto.getDemoVideoUrl().trim());
         if (dto.getPptUrl() != null) entity.setPptUrl(dto.getPptUrl().trim());
         if (dto.getPdfUrl() != null) entity.setPdfUrl(dto.getPdfUrl().trim());
+        if (dto.getPhoneNumber() != null) entity.setPhoneNumber(dto.getPhoneNumber().trim());
+        if (dto.getMembers() != null) entity.setMembers(dto.getMembers().trim());
+        if (dto.getProblemStatement() != null) entity.setProblemStatement(dto.getProblemStatement().trim());
+        if (dto.getCategory() != null) entity.setCategory(dto.getCategory().trim());
+        if (dto.getProjectImageUrl() != null) entity.setProjectImageUrl(dto.getProjectImageUrl().trim());
+        if (dto.getDifficulty() != null) entity.setDifficulty(dto.getDifficulty().trim());
+        if (dto.getCompletionRate() != null) entity.setCompletionRate(dto.getCompletionRate());
+        if (dto.getJudgeComment() != null) entity.setJudgeComment(dto.getJudgeComment().trim());
+        if (dto.getLanguagesJson() != null) entity.setLanguagesJson(dto.getLanguagesJson().trim());
     }
 }

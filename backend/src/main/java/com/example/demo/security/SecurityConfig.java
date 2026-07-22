@@ -24,11 +24,20 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final TenantContextFilter tenantContextFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
 
     public SecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler,
-                          JwtAuthenticationFilter jwtAuthenticationFilter) {
+                          JwtAuthenticationFilter jwtAuthenticationFilter,
+                          TenantContextFilter tenantContextFilter,
+                          OAuth2SuccessHandler oAuth2SuccessHandler,
+                          OAuth2FailureHandler oAuth2FailureHandler) {
         this.unauthorizedHandler = unauthorizedHandler;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.tenantContextFilter = tenantContextFilter;
+        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
+        this.oAuth2FailureHandler = oAuth2FailureHandler;
     }
 
     @Bean
@@ -47,20 +56,27 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers("/auth/**", "/h2-console/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/submissions/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/organizations/**", "/api/intelligence/**", "/api/certificates/verify/**", "/oauth2/**", "/login/oauth2/code/**", "/favicon.ico", "/h2-console/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/submissions/**", "/api/hackathons/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/submissions").permitAll() // Allow submission
-                        .requestMatchers(HttpMethod.DELETE, "/api/submissions/**").hasAnyRole("ADMIN", "JUDGE")
-                        .requestMatchers(HttpMethod.PUT, "/api/submissions/**").hasAnyRole("ADMIN", "JUDGE")
-                        .requestMatchers(HttpMethod.PATCH, "/api/submissions/**").hasAnyRole("ADMIN", "JUDGE")
-                        .requestMatchers("/api/analytics/**").hasAnyRole("ADMIN", "JUDGE")
+                        .requestMatchers(HttpMethod.POST, "/api/hackathons").hasAnyRole("EVENT_MANAGER", "ORGANIZATION_ADMIN", "SUPER_ADMIN", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/hackathons/**").hasAnyRole("EVENT_MANAGER", "ORGANIZATION_ADMIN", "SUPER_ADMIN", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/submissions/**").hasAnyRole("ADMIN", "JUDGE", "ORGANIZATION_ADMIN", "SUPER_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/submissions/**").hasAnyRole("ADMIN", "JUDGE", "ORGANIZATION_ADMIN", "SUPER_ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/submissions/**").hasAnyRole("ADMIN", "JUDGE", "ORGANIZATION_ADMIN", "SUPER_ADMIN")
+                        .requestMatchers("/api/analytics/**").hasAnyRole("ADMIN", "JUDGE", "ORGANIZATION_ADMIN", "SUPER_ADMIN")
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oAuth2SuccessHandler)
+                        .failureHandler(oAuth2FailureHandler)
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
+        http.addFilterBefore(tenantContextFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

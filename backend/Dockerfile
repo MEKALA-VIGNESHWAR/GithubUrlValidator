@@ -1,15 +1,13 @@
-# Stage 1: Build the Maven application
+# Stage 1: Build Jar with Maven and OpenJDK 21
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
 COPY src ./src
-RUN mvn package -DskipTests
+RUN mvn clean package -DskipTests
 
-# Stage 2: Runtime image
+# Stage 2: Runtime Container
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-VOLUME /tmp
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
+EXPOSE 3000
 ENTRYPOINT ["java", "-jar", "app.jar"]

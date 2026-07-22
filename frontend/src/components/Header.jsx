@@ -1,56 +1,225 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function Header({ totalCount, onRefresh, loading }) {
+export default function Header({ activeTab, setActiveTab, onOpenAuth, currentUser, onLogout }) {
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  // Toggle Theme between Dark and Light
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.body.setAttribute('data-theme', newTheme);
+  };
+
+  // Mock Notifications
+  const notifications = [
+    { id: 1, title: 'Submission Approved', message: 'Your project AI Fraud Detection was approved by judges.', time: '10m ago', read: false },
+    { id: 2, title: 'Deadline Extended', message: 'Hackathon submission deadline extended by 24 hours!', time: '1h ago', read: false },
+    { id: 3, title: 'Judge Feedback Received', message: 'Awesome tech stack architecture implementation.', time: '3h ago', read: true }
+  ];
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
   return (
-    <header className="glass-panel" style={{ padding: '24px 32px', marginBottom: '32px' }}>
+    <header className="glass-panel" style={{
+      padding: '16px 24px',
+      marginBottom: '24px',
+      position: 'relative',
+      zIndex: 100
+    }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '1.8rem' }}>🚀</span>
-            <h1 className="gradient-text" style={{ fontSize: '2rem', fontWeight: '800' }}>
-              Hackathon Gateway
-            </h1>
+        
+        {/* BRAND LOGO */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '42px',
+            height: '42px',
+            background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+            borderRadius: '12px',
+            fontSize: '1.4rem',
+            boxShadow: '0 4px 12px rgba(37, 99, 235, 0.35)'
+          }}>
+            ⚡
           </div>
-          <p style={{ color: 'var(--text-muted)', marginTop: '4px', fontSize: '0.95rem' }}>
-            Verify and submit GitHub repositories before the deadline
-          </p>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h1 style={{ fontSize: '1.4rem', fontWeight: '800', margin: 0 }} className="gradient-text">
+                HackForge
+              </h1>
+              <span className="category-pill" style={{ background: 'rgba(37, 99, 235, 0.15)', color: '#60a5fa' }}>
+                v2.5 Production
+              </span>
+            </div>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
+              Enterprise Hackathon Gateway & Project Validator
+            </p>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{
-            background: 'rgba(59, 130, 246, 0.1)',
-            border: '1px solid rgba(59, 130, 246, 0.3)',
-            borderRadius: '20px',
-            padding: '6px 16px',
-            fontSize: '0.875rem',
-            color: '#60a5fa',
-            fontWeight: '600'
-          }}>
-            {totalCount} {totalCount === 1 ? 'Submission' : 'Submissions'}
+        {/* DEADLINE COUNTDOWN DISPLAY */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="countdown-container">
+            <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#f97316' }}>⏳ Closes in:</span>
+            <div className="countdown-box">
+              <span className="countdown-val">06d</span>
+              <span className="countdown-lbl">Days</span>
+            </div>
+            <span style={{ color: '#f97316', fontWeight: 'bold' }}>:</span>
+            <div className="countdown-box">
+              <span className="countdown-val">12h</span>
+              <span className="countdown-lbl">Hours</span>
+            </div>
+            <span style={{ color: '#f97316', fontWeight: 'bold' }}>:</span>
+            <div className="countdown-box">
+              <span className="countdown-val">45m</span>
+              <span className="countdown-lbl">Mins</span>
+            </div>
+          </div>
+        </div>
+
+        {/* CONTROLS: THEME, NOTIFICATIONS, NAV & PROFILE */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="btn-secondary"
+            title="Toggle Light / Dark Mode"
+            style={{ padding: '8px 12px', fontSize: '0.85rem' }}
+          >
+            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+          </button>
+
+          {/* 🔔 Notifications Dropdown */}
+          <div style={{ position: 'relative' }}>
+            <button
+              className="btn-secondary"
+              onClick={() => { setShowNotifications(!showNotifications); setShowProfileMenu(false); }}
+              style={{ position: 'relative', padding: '8px 12px' }}
+            >
+              🔔
+              {unreadCount > 0 && (
+                <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#f97316', color: '#fff', borderRadius: '50%', padding: '2px 6px', fontSize: '0.65rem', fontWeight: 'bold' }}>
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="glass-panel animate-fade-in" style={{
+                position: 'absolute',
+                top: 'calc(100% + 8px)',
+                right: 0,
+                width: '300px',
+                padding: '14px',
+                zIndex: 9999,
+                background: 'var(--card-bg)',
+                boxShadow: '0 12px 32px rgba(0, 0, 0, 0.6)',
+                border: '1px solid var(--card-border)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', borderBottom: '1px solid var(--card-border)', paddingBottom: '8px' }}>
+                  <span style={{ fontWeight: '700', fontSize: '0.85rem' }}>🔔 Notifications</span>
+                  <span style={{ fontSize: '0.7rem', color: '#60a5fa', cursor: 'pointer' }}>Mark all read</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '240px', overflowY: 'auto' }}>
+                  {notifications.map(n => (
+                    <div key={n.id} style={{ padding: '8px', borderRadius: '8px', background: n.read ? 'transparent' : 'rgba(37, 99, 235, 0.1)', border: '1px solid var(--card-border)' }}>
+                      <div style={{ fontWeight: '600', fontSize: '0.8rem', color: 'var(--text-primary)' }}>{n.title}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{n.message}</div>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>{n.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          <button
-            onClick={onRefresh}
-            disabled={loading}
-            style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#d1d5db',
-              padding: '8px 14px',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '0.875rem',
-              transition: 'all 0.2s'
-            }}
-          >
-            <span style={{ display: 'inline-block', transform: loading ? 'rotate(180deg)' : 'none', transition: 'transform 0.4s ease' }}>
-              🔄
-            </span>
-            Refresh
+          {/* Navigation Tabs */}
+          <button className={`nav-tab ${activeTab === 'participant' ? 'active' : ''}`} onClick={() => setActiveTab('participant')}>
+            🚀 Participant View
           </button>
+          
+          {/* Admin Tab - Restricted strictly to ADMIN or JUDGE roles */}
+          {currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'JUDGE') && (
+            <button className={`nav-tab ${activeTab === 'admin' ? 'active' : ''}`} onClick={() => setActiveTab('admin')}>
+              🛡️ Admin (/admin)
+            </button>
+          )}
+
+          {/* 👤 Profile Dropdown */}
+          {currentUser ? (
+            <div style={{ position: 'relative' }}>
+              <button
+                className="btn-secondary"
+                onClick={() => { setShowProfileMenu(!showProfileMenu); setShowNotifications(false); }}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 12px' }}
+              >
+                {currentUser.picture ? (
+                  <img src={currentUser.picture} alt="Profile" style={{ width: '24px', height: '24px', borderRadius: '50%' }} />
+                ) : (
+                  <span>👤</span>
+                )}
+                <span>{currentUser.username}</span>
+                <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>▾</span>
+              </button>
+
+              {showProfileMenu && (
+                <div className="glass-panel animate-fade-in" style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  right: 0,
+                  width: '240px',
+                  padding: '16px',
+                  zIndex: 9999,
+                  background: 'var(--card-bg)',
+                  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.6)',
+                  border: '1px solid var(--card-border)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingBottom: '10px', borderBottom: '1px solid var(--card-border)' }}>
+                    {currentUser.picture ? (
+                      <img src={currentUser.picture} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+                    ) : (
+                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#2563eb', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                        {currentUser.username.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div style={{ overflow: 'hidden' }}>
+                      <div style={{ fontWeight: '700', fontSize: '0.9rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                        👤 {currentUser.username}
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                        📧 {currentUser.email || `${currentUser.username}@hackforge.com`}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ fontSize: '0.75rem', fontWeight: '700', color: '#2563eb', background: 'rgba(37, 99, 235, 0.12)', padding: '6px 10px', borderRadius: '6px', textAlign: 'center' }}>
+                    🎭 {currentUser.role || 'PARTICIPANT'}
+                  </div>
+
+                  <button className="nav-tab" style={{ justifyContent: 'flex-start' }} onClick={() => { setActiveTab('participant'); setShowProfileMenu(false); }}>
+                    📁 My Submissions
+                  </button>
+
+                  <button className="nav-tab" style={{ color: '#ef4444', justifyContent: 'flex-start' }} onClick={() => { onLogout(); setShowProfileMenu(false); }}>
+                    🚪 Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button className="btn-primary" onClick={onOpenAuth} style={{ padding: '8px 14px', fontSize: '0.85rem' }}>
+              🔑 Sign In
+            </button>
+          )}
         </div>
       </div>
     </header>

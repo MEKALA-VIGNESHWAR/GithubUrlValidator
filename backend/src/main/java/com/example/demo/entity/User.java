@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.enums.AuthProvider;
 import com.example.demo.enums.Role;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -25,17 +26,28 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    private String profilePicture;
+
+    private String providerId;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private Long organizationId;
+
     private LocalDateTime createdAt;
 
     public User() {
         this.createdAt = LocalDateTime.now();
+        this.role = Role.PARTICIPANT;
+        this.provider = AuthProvider.LOCAL;
     }
 
     public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.role = role != null ? role : Role.PARTICIPANT;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -53,6 +65,18 @@ public class User {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public String getProfilePicture() { return profilePicture; }
+    public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
+
+    public String getProviderId() { return providerId; }
+    public void setProviderId(String providerId) { this.providerId = providerId; }
+
+    public AuthProvider getProvider() { return provider; }
+    public void setProvider(AuthProvider provider) { this.provider = provider; }
+
+    public Long getOrganizationId() { return organizationId; }
+    public void setOrganizationId(Long organizationId) { this.organizationId = organizationId; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

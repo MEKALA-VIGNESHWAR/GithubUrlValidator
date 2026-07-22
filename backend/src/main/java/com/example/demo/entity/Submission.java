@@ -38,6 +38,26 @@ public class Submission {
 
     private String pdfUrl;
 
+    private String phoneNumber;
+
+    private String members;
+
+    @Column(length = 2000)
+    private String problemStatement;
+
+    private String category;
+
+    private String projectImageUrl;
+
+    private String difficulty;
+
+    private Integer completionRate;
+
+    @Column(length = 2000)
+    private String judgeComment;
+
+    private String languagesJson;
+
     private LocalDateTime submittedAt;
 
     @Enumerated(EnumType.STRING)
@@ -51,6 +71,7 @@ public class Submission {
     private Integer forks;
     private Integer openIssues;
     private String lastCommitDate;
+    private Double judgeRating;
 
     public Submission() {
         this.submittedAt = LocalDateTime.now();
@@ -101,6 +122,33 @@ public class Submission {
     public String getPdfUrl() { return pdfUrl; }
     public void setPdfUrl(String pdfUrl) { this.pdfUrl = pdfUrl; }
 
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public String getMembers() { return members; }
+    public void setMembers(String members) { this.members = members; }
+
+    public String getProblemStatement() { return problemStatement; }
+    public void setProblemStatement(String problemStatement) { this.problemStatement = problemStatement; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getProjectImageUrl() { return projectImageUrl; }
+    public void setProjectImageUrl(String projectImageUrl) { this.projectImageUrl = projectImageUrl; }
+
+    public String getDifficulty() { return difficulty; }
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+
+    public Integer getCompletionRate() { return completionRate; }
+    public void setCompletionRate(Integer completionRate) { this.completionRate = completionRate; }
+
+    public String getJudgeComment() { return judgeComment; }
+    public void setJudgeComment(String judgeComment) { this.judgeComment = judgeComment; }
+
+    public String getLanguagesJson() { return languagesJson; }
+    public void setLanguagesJson(String languagesJson) { this.languagesJson = languagesJson; }
+
     public LocalDateTime getSubmittedAt() { return submittedAt; }
     public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
 
@@ -124,4 +172,7 @@ public class Submission {
 
     public String getLastCommitDate() { return lastCommitDate; }
     public void setLastCommitDate(String lastCommitDate) { this.lastCommitDate = lastCommitDate; }
+
+    public Double getJudgeRating() { return judgeRating; }
+    public void setJudgeRating(Double judgeRating) { this.judgeRating = judgeRating; }
 }
