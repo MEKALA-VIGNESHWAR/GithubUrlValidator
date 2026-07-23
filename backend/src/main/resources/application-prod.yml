@@ -38,7 +38,8 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
-      ssl: ${REDIS_SSL:false}
+      ssl:
+        enabled: ${REDIS_SSL:false}
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
