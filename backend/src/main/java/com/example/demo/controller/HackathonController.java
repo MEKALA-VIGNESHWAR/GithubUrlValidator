@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Hackathon;
 import com.example.demo.repository.HackathonRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/hackathons")
+@RequestMapping({"/api/hackathons", "/api/v1/hackathons"})
 public class HackathonController {
 
     private final HackathonRepository hackathonRepository;
@@ -21,6 +24,14 @@ public class HackathonController {
     @GetMapping
     public ResponseEntity<List<Hackathon>> getAllPublishedHackathons() {
         return ResponseEntity.ok(hackathonRepository.findByIsPublishedTrue());
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Hackathon>> getHackathonsPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(hackathonRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending())));
     }
 
     @GetMapping("/{id}")

@@ -1,17 +1,48 @@
 version: '3.8'
 
 services:
-  mysqldb:
-    image: mysql:8.0
-    container_name: hackforge_db
+  postgres:
+    image: postgres:16-alpine
+    container_name: hackforge_postgres
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: hackforgedb
-      MYSQL_USER: hackforge
-      MYSQL_PASSWORD: hackforgepassword
+      POSTGRES_DB: hackforge_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
     ports:
-      - "3306:3306"
-    restart: always
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: hackforge_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: hackforge_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -19,12 +50,21 @@ services:
       dockerfile: Dockerfile
     container_name: hackforge_backend
     ports:
-      - "3000:3000"
+      - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/hackforgedb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: hackforge
-      SPRING_DATASOURCE_PASSWORD: hackforgepassword
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://postgres:5432/hackforge_dev
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgrespassword
+      REDIS_HOST: redis
+      RABBITMQ_HOST: rabbitmq
     depends_on:
-      - mysqldb
-    restart: always
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

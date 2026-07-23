@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.enums.HackathonStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -24,6 +25,9 @@ public class Hackathon {
     private String eventType; // ONLINE, OFFLINE, HYBRID
 
     private String format;
+
+    @Enumerated(EnumType.STRING)
+    private HackathonStatus status = HackathonStatus.UPCOMING;
 
     @Column(length = 2000)
     private String description;
@@ -83,6 +87,9 @@ public class Hackathon {
 
     public String getFormat() { return format; }
     public void setFormat(String format) { this.format = format; }
+
+    public HackathonStatus getStatus() { return status; }
+    public void setStatus(HackathonStatus status) { this.status = status; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

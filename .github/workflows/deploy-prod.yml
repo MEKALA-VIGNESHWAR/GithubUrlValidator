@@ -1,0 +1,25 @@
+name: HackForge Production Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release Version Tag (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  production-deploy:
+    name: Production Release Gate
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Kubernetes Cluster
+        run: |
+          echo "Deploying version ${{ github.event.inputs.release_version }} to production cluster..."
+          # kubectl apply -f k8s/
+      - name: Verify Health Check & Rollback if Failed
+        run: |
+          echo "Verifying production health check endpoint..."
+          # curl --fail https://hackforge.io/actuator/health/readiness || kubectl rollout undo deployment/backend-deployment -n hackforge

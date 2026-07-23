@@ -334,11 +334,7 @@ export default function App() {
 
         </div>
 
-        {/* FOOTER */}
-        <footer className="footer-container">
-          <div>⚡ <strong>HackForge OS v2.5</strong> — Mission Control Hackathon Operating System</div>
-          <div>Built with Spring Boot 3 & React • Connected to Live Backend APIs</div>
-        </footer>
+
 
       </div>
 

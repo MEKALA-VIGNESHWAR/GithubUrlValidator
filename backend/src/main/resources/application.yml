@@ -1,13 +1,40 @@
 spring:
   profiles:
-    active: dev
+    active: ${SPRING_PROFILES_ACTIVE:local}
   application:
-    name: hackathon-gateway
+    name: hackforge-backend
+  main:
+    banner-mode: off
 
 app:
   jwt:
-    secret: 9a2f8c4e1b7d5a3f6e8c9b2a4d7e1f3a5b8c9d2e4f7a1b3c5e8f9a2b4c6d8e0f
-    expiration-ms: 86400000
+    secret: ${JWT_SECRET:8f3c4e1b7d5a3f6e8c9b2a4d7e1f3a5b8c9d2e4f7a1b3c5e8f9a2b4c6d8e0f12}
+    refresh-secret: ${JWT_REFRESH_SECRET:9a2f8c4e1b7d5a3f6e8c9b2a4d7e1f3a5b8c9d2e4f7a1b3c5e8f9a2b4c6d8e99}
+    expiration-ms: ${JWT_EXPIRATION_MS:900000} # 15 mins
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000} # 7 days
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000,http://localhost:80}
+  s3:
+    bucket: ${AWS_S3_BUCKET:hackforge-storage}
+    region: ${AWS_S3_REGION:us-east-1}
+    access-key: ${AWS_ACCESS_KEY_ID:test}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:test}
+    endpoint: ${AWS_S3_ENDPOINT:http://localhost:9000}
+    path-style-access-enabled: ${AWS_S3_PATH_STYLE:true}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,env
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 springdoc:
   api-docs:

@@ -1,6 +1,8 @@
 package com.example.demo.exception;
 
 import com.example.demo.dto.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +18,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -53,15 +57,22 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(409, "Conflict", ex.getMessage(), LocalDateTime.now());
     }
 
-    @ExceptionHandler({BadCredentialsException.class, AccessDeniedException.class})
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleBadCredentials(BadCredentialsException ex) {
+        return new ErrorResponse(401, "Unauthorized", "Invalid email or password", LocalDateTime.now());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handleForbidden(Exception ex) {
-        return new ErrorResponse(403, "Access Denied", ex.getMessage(), LocalDateTime.now());
+    public ErrorResponse handleAccessDenied(AccessDeniedException ex) {
+        return new ErrorResponse(403, "Access Denied", "You do not have permission to access this resource.", LocalDateTime.now());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleGlobalException(Exception ex) {
-        return new ErrorResponse(500, "Internal Server Error", ex.getMessage() != null ? ex.getMessage() : "An unexpected error occurred.", LocalDateTime.now());
+        logger.error("Unhandled internal server exception:", ex);
+        return new ErrorResponse(500, "Internal Server Error", "An internal error occurred. Please contact support.", LocalDateTime.now());
     }
 }

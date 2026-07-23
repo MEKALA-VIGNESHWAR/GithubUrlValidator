@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../api/apiClient';
 
 export default function ArchiveHub() {
   const [archivedSubmissions, setArchivedSubmissions] = useState([]);
@@ -11,17 +12,9 @@ export default function ArchiveHub() {
 
   const fetchArchived = async () => {
     try {
-      const res = await fetch('/api/me/archived');
-      if (res.ok) {
-        const data = await res.json();
-        setArchivedSubmissions(Array.isArray(data) ? data : []);
-      } else {
-        const fallbackRes = await fetch('/api/submissions?status=APPROVED');
-        if (fallbackRes.ok) {
-          const data = await fallbackRes.json();
-          setArchivedSubmissions(Array.isArray(data) ? data : data.content || []);
-        }
-      }
+      const data = await apiClient.get('/submissions');
+      const list = Array.isArray(data) ? data : data.content || [];
+      setArchivedSubmissions(list);
     } catch (err) {
       console.error('Failed to fetch archived submissions', err);
     } finally {
@@ -53,7 +46,7 @@ export default function ArchiveHub() {
               Archived Events
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-              Real database showcase of approved winner submissions and historical project repositories.
+              Historical showcase of submitted project repositories and hackathon entries.
             </p>
           </div>
         </div>
@@ -71,12 +64,16 @@ export default function ArchiveHub() {
       </div>
 
       {/* --- ARCHIVED GRID OR EMPTY STATE --- */}
-      {filteredItems.length === 0 ? (
+      {loading ? (
+        <div className="glass-panel" style={{ padding: '48px', textAlign: 'center' }}>
+          <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Loading archive from server...</span>
+        </div>
+      ) : filteredItems.length === 0 ? (
         <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', background: 'var(--inner-bg)', border: '1px solid var(--card-border)' }}>
           <span style={{ fontSize: '2.5rem' }}>🏆</span>
           <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginTop: '12px', color: 'var(--text-primary)' }}>No Archived Events Found</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '6px' }}>
-            No approved project submissions are currently stored in the archive database.
+            No project submissions match your query filter.
           </p>
         </div>
       ) : (
@@ -85,22 +82,22 @@ export default function ArchiveHub() {
             <div key={item.id} className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
               <div>
                 <div style={{ background: 'rgba(234, 179, 8, 0.15)', color: '#eab308', border: '1px solid rgba(234, 179, 8, 0.3)', padding: '4px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: '700', display: 'inline-block', marginBottom: '12px' }}>
-                  🏆 Approved Winner Project
+                  🏆 Project Submission
                 </div>
 
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '4px' }}>{item.projectTitle}</h3>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
-                  Team: <strong style={{ color: 'var(--primary)' }}>{item.teamName}</strong> • Leader: {item.leaderName || 'Leader'}
+                  Team: <strong style={{ color: 'var(--primary)' }}>{item.teamName}</strong>
                 </div>
 
                 <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.4', marginBottom: '16px' }}>
-                  {item.description || 'Verified hackathon project stored in HackForge legacy database.'}
+                  {item.description || 'Verified hackathon project entry.'}
                 </p>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid var(--card-border)' }}>
-                {item.githubRepoUrl && (
-                  <a href={item.githubRepoUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ flex: 1, textDecoration: 'none', textAlign: 'center', fontSize: '0.82rem' }}>
+                {item.githubUrl && (
+                  <a href={item.githubUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ flex: 1, textDecoration: 'none', textAlign: 'center', fontSize: '0.82rem' }}>
                     🔗 Code Repository
                   </a>
                 )}

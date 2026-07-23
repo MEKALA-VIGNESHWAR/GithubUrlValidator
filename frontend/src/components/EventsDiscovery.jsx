@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { apiClient } from '../api/apiClient';
 
 export default function EventsDiscovery() {
   const [hackathons, setHackathons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedMode, setSelectedMode] = useState('ALL');
-  const [registeredEventIds, setRegisteredEventIds] = useState([1]);
+  const [registeredEventIds, setRegisteredEventIds] = useState([]);
 
   useEffect(() => {
     fetchHackathons();
@@ -14,11 +14,8 @@ export default function EventsDiscovery() {
 
   const fetchHackathons = async () => {
     try {
-      const res = await fetch('/api/hackathons');
-      if (res.ok) {
-        const data = await res.json();
-        setHackathons(Array.isArray(data) ? data : data.content || []);
-      }
+      const data = await apiClient.get('/hackathons');
+      setHackathons(Array.isArray(data) ? data : data.content || []);
     } catch (err) {
       console.error('Failed to fetch hackathons', err);
     } finally {
@@ -29,10 +26,8 @@ export default function EventsDiscovery() {
   const toggleRegister = (id) => {
     if (registeredEventIds.includes(id)) {
       setRegisteredEventIds(prev => prev.filter(eId => eId !== id));
-      alert('Unregistered from hackathon seat.');
     } else {
       setRegisteredEventIds(prev => [...prev, id]);
-      alert('🎉 Seat confirmed! Registered for Hackathon in database.');
     }
   };
 
@@ -53,20 +48,20 @@ export default function EventsDiscovery() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
               <span style={{ fontSize: '1.2rem' }}>🌐</span>
               <span style={{ fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', color: '#60a5fa', textTransform: 'uppercase' }}>
-                LIVE DATABASE HACKATHON EVENTS
+                PRODUCTION HACKATHON DIRECTORY
               </span>
             </div>
             <h1 style={{ fontSize: '2.2rem', fontWeight: '800', margin: '4px 0' }} className="gradient-text">
               Explore Events
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-              Discover live events created by admins in PostgreSQL database.
+              Discover active hackathons running on the HackForge SaaS platform.
             </p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--inner-bg)', padding: '10px 18px', borderRadius: '14px', border: '1px solid var(--card-border)' }}>
             <div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>DATABASE EVENTS</div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>ACTIVE EVENTS</div>
               <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#10b981' }}>{hackathons.length} Events</div>
             </div>
           </div>
@@ -92,13 +87,17 @@ export default function EventsDiscovery() {
         </select>
       </div>
 
-      {/* --- EVENTS BENTO GRID OR EMPTY STATE --- */}
-      {filteredEvents.length === 0 ? (
+      {/* --- EVENTS GRID --- */}
+      {loading ? (
+        <div className="glass-panel" style={{ padding: '48px', textAlign: 'center' }}>
+          <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Loading hackathons from server...</span>
+        </div>
+      ) : filteredEvents.length === 0 ? (
         <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', background: 'var(--inner-bg)', border: '1px solid var(--card-border)' }}>
           <span style={{ fontSize: '2.5rem' }}>📅</span>
-          <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginTop: '12px', color: 'var(--text-primary)' }}>No Hackathons Available</h3>
+          <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginTop: '12px', color: 'var(--text-primary)' }}>No Events Found</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '6px' }}>
-            No events match your current filter or database query.
+            No active hackathons currently match your query filter.
           </p>
         </div>
       ) : (
@@ -110,22 +109,14 @@ export default function EventsDiscovery() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <span className="status-badge status-approved" style={{ fontSize: '0.65rem' }}>
-                      {event.eventType || event.mode || 'ONLINE'}
-                    </span>
-                    <span style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: '700' }}>
-                      💰 {event.prizePool || '$50,000'}
+                      {event.eventType || event.status || 'ONLINE'}
                     </span>
                   </div>
 
                   <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '4px' }}>{event.title || event.name}</h3>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
-                    Organized by <strong style={{ color: 'var(--primary)' }}>{event.organizer || 'HackForge Admin'}</strong>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.78rem', color: 'var(--text-secondary)', background: 'var(--inner-bg)', padding: '12px', borderRadius: '10px', border: '1px solid var(--card-border)' }}>
-                    <div>Track: <strong style={{ color: 'var(--text-primary)' }}>{event.track || 'Full Stack'}</strong></div>
-                    <div>Capacity: <strong style={{ color: '#10b981' }}>{event.registeredCount || 842} / {event.capacity || 1500} Seats</strong></div>
-                  </div>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+                    {event.description || 'Global Hackathon Competition'}
+                  </p>
                 </div>
 
                 <div style={{ paddingTop: '16px', borderTop: '1px solid var(--card-border)' }}>
@@ -134,7 +125,7 @@ export default function EventsDiscovery() {
                     className={isRegistered ? 'btn-secondary' : 'btn-primary'}
                     style={{ width: '100%', padding: '10px', fontSize: '0.88rem' }}
                   >
-                    {isRegistered ? '🚀 Participate in Hackathon' : '⚡ Register Now'}
+                    {isRegistered ? '🚀 Participated' : '⚡ Register Now'}
                   </button>
                 </div>
               </div>

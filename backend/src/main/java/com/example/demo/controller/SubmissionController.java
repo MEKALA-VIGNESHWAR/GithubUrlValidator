@@ -5,7 +5,6 @@ import com.example.demo.dto.response.SubmissionResponseDTO;
 import com.example.demo.enums.SubmissionStatus;
 import com.example.demo.service.SubmissionService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/submissions")
+@RequestMapping({"/api/submissions", "/api/v1/submissions"})
 public class SubmissionController {
 
     private final SubmissionService submissionService;
@@ -35,7 +34,7 @@ public class SubmissionController {
     public Object getAllSubmissions(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
-            @RequestParam(required = false, defaultValue = "submittedAt") String sort,
+            @RequestParam(required = false, defaultValue = "id") String sort,
             @RequestParam(required = false, defaultValue = "desc") String direction,
             @RequestParam(required = false) String team) {
 
