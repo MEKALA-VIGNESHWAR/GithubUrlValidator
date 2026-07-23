@@ -1,13 +1,320 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HackForge - Enterprise Hackathon Platform & Validator</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackForge OS | Innovation Command Hub</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0d14;
+            --surface-container: #111522;
+            --glass-bg: rgba(17, 21, 34, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f97316;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: #e2e8f0;
+            font-family: 'Geist', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .module-card {
+            background: rgba(17, 21, 34, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+
+        .glow-dot {
+            box-shadow: 0 0 10px #10b981;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/10 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <span class="material-symbols-outlined text-white font-bold">terminal</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-blue-400">
+                        HACKFORGE OS
+                    </h1>
+                    <p class="text-xs text-slate-400 font-mono flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 glow-dot"></span>
+                        INNOVATION COMMAND CENTER v2.4
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="hidden md:flex items-center gap-6 text-xs font-mono text-slate-400 border-l border-r border-white/10 px-6">
+                <div>
+                    <span class="text-slate-500 block">MODULES</span>
+                    <span class="text-blue-400 font-bold text-sm">8 ACTIVE</span>
+                </div>
+                <div>
+                    <span class="text-slate-500 block">THEME ENGINE</span>
+                    <span class="text-indigo-400 font-bold text-sm">DARK INNOVATION OS</span>
+                </div>
+                <div>
+                    <span class="text-slate-500 block">BACKEND INTEGRATION</span>
+                    <span class="text-emerald-400 font-bold text-sm">SPRING BOOT 3.x</span>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center gap-3">
+                <a href="../backend/" target="_blank" class="px-4 py-2 text-xs font-mono rounded-lg border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white transition flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">api</span>
+                    Backend Swagger API
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Hub -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
+        <!-- Hero Banner -->
+        <div class="glass-panel rounded-2xl p-8 mb-8 border border-blue-500/20 relative overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-4">
+                    <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                    MODULAR FRONTEND ARCHITECTURE
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+                    Stitch Innovation Command OS
+                </h2>
+                <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                    A suite of high-density glassmorphism UI components designed for hackathon submissions, real-time analytics, participant project cockpits, and event management.
+                </p>
+            </div>
+        </div>
+
+        <!-- Module Grid -->
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-blue-400">grid_view</span>
+            Command Center Modules
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Card 1: Analytics Hub -->
+            <div class="module-card rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                            <span class="material-symbols-outlined">analytics</span>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">LIVE DASHBOARD</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1">Analytics Hub</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Real-time hackathon metrics, submission velocity graphs, star distribution, and rating analytics.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-[11px] font-mono text-slate-500">hackforge_analytics_hub</span>
+                    <a href="hackforge_analytics_hub/code.html" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1">
+                        Open Module
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: Pro Cockpit -->
+            <div class="module-card rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                            <span class="material-symbols-outlined">space_dashboard</span>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-1 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">BUILDER COCKPIT</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1">Pro Cockpit</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Builder command center featuring submission management, live deployment health, and CI/CD status.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-[11px] font-mono text-slate-500">hackforge_my_projects_pro_cockpit</span>
+                    <a href="hackforge_my_projects_pro_cockpit/code.html" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 hover:bg-purple-500 text-white transition flex items-center gap-1">
+                        Open Module
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: My Projects -->
+            <div class="module-card rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                            <span class="material-symbols-outlined">folder_managed</span>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">PROJECTS MANAGER</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1">My Projects</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Participant workspace with team role assignments, repo URL validator cards, and progress trackers.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-[11px] font-mono text-slate-500">hackforge_my_projects</span>
+                    <a href="hackforge_my_projects/code.html" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-1">
+                        Open Module
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 4: Archive Hub v2.0 -->
+            <div class="module-card rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                            <span class="material-symbols-outlined">inventory_2</span>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">ARCHIVE v2.0</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1">Archive Hub</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Historical hackathon submissions, winning projects repository archive, and showcase galleries.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-[11px] font-mono text-slate-500">hackforge_archive_hub_v2.0</span>
+                    <a href="hackforge_archive_hub_v2.0/code.html" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-600 hover:bg-amber-500 text-white transition flex items-center gap-1">
+                        Open Module
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 5: Events Discovery -->
+            <div class="module-card rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                            <span class="material-symbols-outlined">event</span>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">EVENTS DISCOVERY</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1">Events Discovery</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Active hackathon listings, prize pool leaderboards, registration portals, and countdown timers.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-[11px] font-mono text-slate-500">hackforge_events_discovery</span>
+                    <a href="hackforge_events_discovery/code.html" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1">
+                        Open Module
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 6: Shader Engine -->
+            <div class="module-card rounded-xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+                            <span class="material-symbols-outlined">palette</span>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-1 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">GRAPHICS ENGINE</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1">Shader Playground</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Visual shader playground and dynamic background graphics generator for dark theme canvases.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-[11px] font-mono text-slate-500">shader</span>
+                    <a href="shader/code.html" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-rose-600 hover:bg-rose-500 text-white transition flex items-center gap-1">
+                        Open Module
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Tokens & Specs -->
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-purple-400">style</span>
+            Design System Guidelines
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-panel p-6 rounded-xl border border-white/10">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-blue-400">dark_mode</span>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Dark Innovation OS System</h4>
+                        <p class="text-xs text-slate-400">Core design tokens, HSL color palette, typography guidelines</p>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <a href="dark_innovation_os/DESIGN.md" target="_blank" class="text-xs text-blue-400 hover:text-blue-300 font-mono flex items-center gap-1">
+                        View DESIGN.md <span class="material-symbols-outlined text-sm">open_in_new</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-xl border border-white/10">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-indigo-400">auto_fix_high</span>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Obsidian Flux Design Tokens</h4>
+                        <p class="text-xs text-slate-400">High-contrast secondary layout specifications & glass variables</p>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <a href="obsidian_flux/DESIGN.md" target="_blank" class="text-xs text-indigo-400 hover:text-indigo-300 font-mono flex items-center gap-1">
+                        View DESIGN.md <span class="material-symbols-outlined text-sm">open_in_new</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel border-t border-white/10 py-6 px-6 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-slate-500 gap-4">
+            <div>
+                © 2026 HACKFORGE | GitHub URL Validator & Hackathon Platform
+            </div>
+            <div class="flex items-center gap-4">
+                <span>SPRING BOOT BACKEND</span>
+                <span>•</span>
+                <span>TAILWIND + GLASSMORPHISM</span>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>

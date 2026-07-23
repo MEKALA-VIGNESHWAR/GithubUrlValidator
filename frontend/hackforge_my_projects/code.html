@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="en" class="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#eeefff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "surface-dim": "#11131b",
+                    "on-secondary-fixed-variant": "#783200",
+                    "on-tertiary": "#581e00",
+                    "surface-bright": "#373942",
+                    "on-secondary-container": "#4a1c00",
+                    "on-background": "#e1e2ed",
+                    "on-error": "#690005",
+                    "on-primary": "#002a78",
+                    "surface": "#11131b",
+                    "secondary-fixed-dim": "#ffb690",
+                    "surface-tint": "#b4c5ff",
+                    "secondary-container": "#ec6a06",
+                    "surface-variant": "#32343d",
+                    "secondary": "#ffb690",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "tertiary-container": "#bc4800",
+                    "surface-container-highest": "#32343d",
+                    "secondary-fixed": "#ffdbca",
+                    "surface-container-low": "#191b23",
+                    "on-tertiary-container": "#ffede6",
+                    "surface-container": "#1d1f27",
+                    "on-surface-variant": "#c3c6d7",
+                    "on-primary-fixed": "#00174b",
+                    "primary-container": "#2563eb",
+                    "inverse-on-surface": "#2e3039",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "error": "#ffb4ab",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#552100",
+                    "surface-container-lowest": "#0c0e16",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed": "#341100",
+                    "surface-container-high": "#282a32",
+                    "background": "#11131b",
+                    "tertiary": "#ffb596",
+                    "outline": "#8d90a0",
+                    "inverse-surface": "#e1e2ed",
+                    "on-surface": "#e1e2ed",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "primary-fixed": "#dbe1ff",
+                    "primary": "#b4c5ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "outline-variant": "#434655",
+                    "on-tertiary-fixed": "#360f00",
+                    "inverse-primary": "#0053db"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Geist"],
+                    "display": ["Geist"],
+                    "body": ["Inter"],
+                    "label": ["Geist"]
+            }
+          },
+        },
+      }
+    }catch(_e){}</script><meta charset="utf-8"></head><body class="overflow-x-hidden">
+<!-- Top Command Bar (Shared Component: TopNavBar) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-low/80 backdrop-blur-3xl border-b border-outline-variant/30 shadow-xl flex items-center justify-between px-12 py-4">
+<div class="flex items-center gap-8">
+<span class="font-headline text-headline-md font-bold tracking-tighter text-primary">HackForge</span>
+<div class="hidden md:flex items-center bg-surface-container-highest/40 px-4 py-2 rounded-lg border border-outline-variant/20 w-80">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input type="text" placeholder="Search projects, nodes..." class="bg-transparent border-none focus:ring-0 text-sm w-full text-on-surface placeholder-on-surface-variant/50">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-on-surface-variant hover:bg-white/5 p-2 rounded-lg transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:bg-white/5 p-2 rounded-lg transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-on-surface">Alex River</p>
+<p class="text-[10px] text-primary tracking-widest uppercase">Lead Architect</p>
+</div>
+<img class="w-10 h-10 rounded-lg object-cover ring-1 ring-primary/30" data-alt="A professional headshot of a young male software architect in a tech-focused setting, wearing modern glasses and a black hoodie. The background is a blurred dark office with neon blue ambient lighting, reflecting the sophisticated Dark Innovation OS aesthetic. High-quality portrait photography style with soft focus and professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsXgr56xDxoNUm_Y6O8CRs9Cz4i8dXIglOkhHk3QSd5D0U0DVfRq1UozpP2Zs2gSEVTWL92NZOZvdVpHoooKiHqxnnnZi0n4FB2YBzUJoeVfiargVLCAvX2H8ls8WO2UZQmzs_JxAfAhBjBeJy2WowAUFQruz_lbk3nW1lT5gpluYz6SsB-f0m0jViKL1sOcEGtqrBxmtuABOBjE819JSPREGtbJNhziXAvbs8jZ7s1isMr8k_gOZ6">
+</div>
+</div>
+</header>
+<!-- Side Navigation (Shared Component: SideNavBar) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-lowest dark:bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col pt-24 pb-8 transition-transform duration-300">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 p-3 bg-surface-container-high rounded-xl">
+<div class="w-10 h-10 bg-primary/20 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">terminal</span>
+</div>
+<div>
+<h3 class="font-headline font-semibold text-on-surface">Forge OS</h3>
+<p class="text-[10px] text-on-surface-variant opacity-70">v4.0.1-alpha</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label text-sm">DashBoard</span>
+</a>
+<!-- Active State: Projects -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(180,197,255,0.3)] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">rocket_launch</span>
+<span class="font-label text-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-label text-sm">Nodes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label text-sm">Archive</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                Deploy Project
+            </button>
+<div class="pt-4 border-t border-outline-variant/20">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all text-sm" href="#">
+<span class="material-symbols-outlined">help</span> Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all text-sm" href="#">
+<span class="material-symbols-outlined">logout</span> Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-24 min-h-screen">
+<div class="max-w-[1440px] mx-auto p-12">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Workspace / Current Ventures</span>
+<h1 class="font-display text-6xl font-extrabold tracking-tighter mt-2">Active Projects</h1>
+</div>
+<div class="flex gap-4">
+<div class="glass px-4 py-2 rounded-lg flex items-center gap-3">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-xs font-mono text-on-surface-variant uppercase">3 Instances Active</span>
+</div>
+</div>
+</div>
+<!-- Asymmetric Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Project Cockpit Card 01: Sentience-24 Core -->
+<div class="col-span-12 lg:col-span-8 glass-card rounded-xl overflow-hidden flex flex-col">
+<div class="p-8 flex flex-col h-full">
+<div class="flex justify-between items-start mb-8">
+<div class="flex gap-6">
+<div class="w-20 h-20 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: &quot;FILL&quot; 1;" data-original-icon="brain">circle</span>
+</div>
+<div>
+<h2 class="font-headline text-3xl font-bold text-on-surface">Sentience-24 Core</h2>
+<p class="text-on-surface-variant mt-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">groups</span>
+                                        Team "Neural Nexus" • Global AI Hackathon
+                                    </p>
+</div>
+</div>
+<div class="text-right">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-xs font-bold uppercase tracking-wider mb-2">
+<span class="material-symbols-outlined text-[14px]">timer</span> 48h 12m Left
+                                </div>
+<p class="text-xs text-on-surface-variant font-mono uppercase tracking-tighter">ID: MOD_SENT_092</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-8 mb-8">
+<!-- Team Health -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/10">
+<div class="flex justify-between items-center mb-3">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Team Health</span>
+<span class="text-sm font-bold text-green-400">94%</span>
+</div>
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-low ring-1 ring-primary/30" data-alt="Avatar of a developer with short dark hair, sharp features, looking focused, high tech digital atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3zkMvQ_oxJdZ49amg9kNmaA7VuyhRiIaLLSUxnYqRAJGxbek7MjgXlKaDbsIk22E9NZo2QhiBEz_KMrQOAFojMNW2S0BKZsqt_LrF-88R7oW7SYbW4uNQQ2F6uf8bWon_fnCU2vnptsJjL6tdDGqjh-U8qwT3ofcclK0p743xV5_YCYjwET6hHSuoGDCNXT8wNN7S6LHvv0vuhyqgotfkbqCnWatSnWh4L1bBzF7KYgGrTs80UDNl">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-low" data-alt="Avatar of a female designer with long blonde hair, creative lighting, modern minimal tech style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS9lL6Mp9UBsH7by2pNoIWi0ydneR5JucYkwntsgS5Ges4qLBLBVxmEocBE7YvZaWeJZ8Afg5o3Ar-J9K_dfDswM6S1XEHzJpFbz8YXvcNVIB9OpuTev_07kJED8hUHL8kfPj7dayBn-k-9PhBpNvaEcrSzkuxCYkS4A-a78Swel5fvBtRmG4O0CLxBDlpBajMvzAA6-9INcldiXwR6mTVaOgWXEh8HJ-l-aAOBjKYFMEsBFjCqCXp">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-low" data-alt="Avatar of a system engineer, older male with salt and pepper hair, serious look, tech office backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0Xy6MyPSPU_QtiA7Y0XGD3LOl6j8AZmOAJ9yK00GwRPipxfU0A1R6j3QTqMNlvRqXzYfhZWSER6XliK6YXsss6CWtOXWZ08i-ogis5CoZtsLlPwTdyyR7cKr8OhlpHggQEiGqHLZQkriZjiHG2ItDWMo5SK5KubFmuseL5n1VMA6O5FfwvF-dLW-0PZ3_AiL5gcciz4lMVtmJcFuIod3Squzp8Y1XnahP0ci6tLeTeZRD4-GsObYE">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-surface-container-high flex items-center justify-center text-[10px] text-on-surface-variant">+2</div>
+</div>
+</div>
+<!-- Github Sync -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/10">
+<div class="flex justify-between items-center mb-3">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Repo Activity</span>
+<span class="text-[10px] font-mono text-primary">Live</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">commit</span>
+<div>
+<p class="text-xs font-semibold text-on-surface truncate">feat: merge-inference-engine</p>
+<p class="text-[10px] text-on-surface-variant">2 mins ago by @k_dev</p>
+</div>
+</div>
+</div>
+<!-- Readiness -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/10 flex items-center justify-between">
+<div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block mb-1">Readiness</span>
+<span class="text-2xl font-bold text-on-surface">82<span class="text-sm text-on-surface-variant">/100</span></span>
+</div>
+<div class="relative w-12 h-12">
+<svg class="w-full h-full -rotate-90">
+<circle cx="24" cy="24" fill="transparent" r="20" stroke="rgba(255,255,255,0.05)" stroke-width="4"></circle>
+<circle cx="24" cy="24" fill="transparent" r="20" stroke="#b4c5ff" stroke-dasharray="125.6" stroke-dashoffset="22.6" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<span class="material-symbols-outlined absolute inset-0 flex items-center justify-center text-[16px] text-primary">verified</span>
+</div>
+</div>
+</div>
+<!-- Progress Tracker -->
+<div class="mt-auto">
+<div class="flex justify-between items-end mb-4">
+<span class="text-xs font-bold uppercase tracking-widest text-primary">Current Phase: Inference Integration</span>
+<span class="text-xs font-mono text-on-surface-variant">ETA: 6 Hours</span>
+</div>
+<div class="relative h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="absolute left-0 top-0 h-full bg-primary shadow-[0_0_10px_#b4c5ff]" style="width: 75%"></div>
+</div>
+<div class="flex justify-between mt-4">
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5 opacity-100">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold text-on-surface uppercase">Design</span>
+</div>
+<div class="flex items-center gap-1.5 opacity-100">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold text-on-surface uppercase">Core Build</span>
+</div>
+<div class="flex items-center gap-1.5 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="text-[10px] font-bold text-on-surface uppercase">Refinement</span>
+</div>
+<div class="flex items-center gap-1.5 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="text-[10px] font-bold text-on-surface uppercase">Pitch</span>
+</div>
+</div>
+<button class="text-[10px] font-bold text-primary uppercase hover:underline">Open Console</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Cockpit Card 02: Web3 Node Summit (Compact/Small) -->
+<div class="col-span-12 lg:col-span-4 glass-card rounded-xl flex flex-col p-8">
+<div class="flex justify-between items-start mb-6">
+<div class="w-14 h-14 bg-secondary/10 rounded-lg flex items-center justify-center border border-secondary/20">
+<span class="material-symbols-outlined text-2xl text-secondary">token</span>
+</div>
+<button class="text-on-surface-variant hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-1">Web3 Node Summit</h3>
+<p class="text-sm text-on-surface-variant mb-8">Solana Ecosystem Builder</p>
+<div class="space-y-6">
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant font-medium uppercase tracking-widest">Submission Status</span>
+<span class="px-2 py-0.5 rounded bg-blue-500/10 text-primary border border-primary/20 font-bold">DRAFT</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span class="">README.md documentation complete</span>
+</div>
+<div class="flex items-center gap-3 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span class="">Demo Video recorded (v2)</span>
+</div>
+<div class="flex items-center gap-3 text-xs text-on-secondary opacity-50">
+<span class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+<span class="">Final Slide Deck (Pending)</span>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10 mt-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Team Synergy</span>
+<span class="text-xs font-bold text-secondary">62%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 62%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State / Create New Project Section -->
+<div class="col-span-12 lg:col-span-4 group relative overflow-hidden glass-card rounded-xl p-8 border-dashed border-outline-variant/50 hover:border-primary/50 flex flex-col items-center justify-center text-center cursor-pointer min-h-[300px]">
+
+<div class="relative z-10">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors">add_circle</span>
+</div>
+<h4 class="font-headline text-xl font-bold mb-2">Initialize New Build</h4>
+<p class="text-sm text-on-surface-variant max-w-[200px] mx-auto">Start a solo sprint or create a team for an upcoming innovation challenge.</p>
+</div>
+</div>
+<!-- Explore More Events (Horizontal Scroll / Bento Mix) -->
+<div class="col-span-12 lg:col-span-8 glass-card rounded-xl p-8 flex flex-col justify-center">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h4 class="font-headline text-xl font-bold">Recommended for You</h4>
+<p class="text-sm text-on-surface-variant">Based on your Stack: Rust, Typescript, LLMs</p>
+</div>
+<button class="text-xs font-bold text-primary uppercase tracking-widest hover:underline flex items-center gap-2">
+                            View All Events <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/10 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded bg-cover bg-center shrink-0" data-alt="A futuristic hackathon logo featuring abstract geometric lines and glowing blue accents on a dark metallic background. The design is sleek, professional, and captures the spirit of high-end technology innovation." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAnDm_BVhU0GhSu8-UA70fhbhAKbk7K3c2ZLKnuaIwKvUTWdJFrmes4e91S5uP1NJtiCG_DJiIN5VGPaFaaQ2dVYgeu55DeSgtvjGIpFnlewp8bs3uoV2quLF1A7xI9tycUfKH1IoyKLC_JWB5sHZjIlNfsaLnIbUlRjRgxvHbd1wFrO5gNkVkmaZ1Q1kA6bDs2vCz0snLgdzOs1HjJsDPmbjhaw2jdTLH8GabgFwTtIFXvPFxBsq8a&quot;);"></div>
+<div>
+<h5 class="text-sm font-bold group-hover:text-primary transition-colors">Quantum Leap Hack</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-2">Starts in 3 Days • $50k Prize Pool</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-[9px] font-bold text-on-surface-variant">BLOCKCHAIN</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-[9px] font-bold text-on-surface-variant">Q-COMPUTING</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/10 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded bg-cover bg-center shrink-0" data-alt="Minimalist abstract digital branding for a tech summit, showing a stylized orange node network on a dark obsidian surface. High contrast, sharp edges, and clean composition reflecting a professional developer tool aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCE5OjeVaFekCnus2lMxNnv_JlrNI7o1KYiJOcU5LgB0kCP2xItL_bYEWokTWxOmvBa-8ADYOWLHLj83CGv6VVWCRqvW9xHWl9bFHQRT2zchixK3TGAAxMp4N5yIPLmViHbjQBDJCGrsJScH6QNTLUhImTpje3fWRvIWo_G8_sId-0hJG3-EUTln0us3Uo0U5efsGDFqFwQNOhE8ccMbZ7wA8hxF_MJALfMd4CsmMq-1nNiQun5Jwvx&quot;);"></div>
+<div>
+<h5 class="text-sm font-bold group-hover:text-primary transition-colors">Cyber-Security Forge</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-2">Registration Open • Virtual</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-[9px] font-bold text-on-surface-variant">INFRA</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-[9px] font-bold text-on-surface-variant">CYBER</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) - Contextual for Projects -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform group z-50">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300">add</span>
+<!-- Tooltip -->
+<span class="absolute right-16 px-4 py-2 bg-surface-container-highest text-on-surface text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-outline-variant/30">Quick-Launch Project</span>
+</button>
+<script>
+        // Interactive Micro-interactions
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle scale effect already handled by CSS
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input');
+        const searchContainer = searchInput.parentElement;
+        
+        searchInput.addEventListener('focus', () => {
+            searchContainer.classList.add('ring-1', 'ring-primary/50', 'border-primary/50');
+            searchContainer.classList.remove('border-outline-variant/20');
+        });
+
+        searchInput.addEventListener('blur', () => {
+            searchContainer.classList.remove('ring-1', 'ring-primary/50', 'border-primary/50');
+            searchContainer.classList.add('border-outline-variant/20');
+        });
+    </script>
+
+</body></html>

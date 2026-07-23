@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HackForge | Analytics Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#32343d",
+                    "surface-container-highest": "#32343d",
+                    "outline": "#8d90a0",
+                    "secondary-fixed": "#ffdbca",
+                    "inverse-primary": "#0053db",
+                    "on-secondary-fixed": "#341100",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#434655",
+                    "secondary-fixed-dim": "#ffb690",
+                    "inverse-surface": "#e1e2ed",
+                    "surface-container-lowest": "#0c0e16",
+                    "surface-container-high": "#282a32",
+                    "primary-fixed": "#dbe1ff",
+                    "on-primary": "#002a78",
+                    "background": "#11131b",
+                    "primary": "#b4c5ff",
+                    "primary-container": "#2563eb",
+                    "on-surface": "#e1e2ed",
+                    "inverse-on-surface": "#2e3039",
+                    "surface-dim": "#11131b",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-secondary-fixed-variant": "#783200",
+                    "on-background": "#e1e2ed",
+                    "surface-bright": "#373942",
+                    "secondary-container": "#ec6a06",
+                    "surface-container": "#1d1f27",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-secondary-container": "#4a1c00",
+                    "on-primary-fixed": "#00174b",
+                    "secondary": "#ffb690",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-tertiary-container": "#ffede6",
+                    "on-error-container": "#ffdad6",
+                    "on-surface-variant": "#c3c6d7",
+                    "surface-container-low": "#191b23",
+                    "surface": "#11131b",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "tertiary-fixed": "#ffdbcd",
+                    "on-tertiary": "#581e00",
+                    "tertiary-container": "#bc4800",
+                    "on-primary-container": "#eeefff",
+                    "tertiary": "#ffb596",
+                    "error-container": "#93000a",
+                    "surface-tint": "#b4c5ff",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-secondary": "#552100"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Geist"],
+                    "display": ["Geist"],
+                    "body": ["Inter"],
+                    "label": ["Geist"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #11131b; color: #e1e2ed; }
+        .font-headline { font-family: 'Geist', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-primary { background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.2); backdrop-filter: blur(24px); }
+        .pulse-live { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
+        .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0c0e16; }
+        ::-webkit-scrollbar-thumb { background: #32343d; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-low/80 backdrop-blur-3xl border-b border-outline-variant/30 flex items-center justify-between px-12 py-4 shadow-xl">
+<div class="flex items-center gap-6">
+<span class="font-headline text-2xl font-bold tracking-tighter text-primary">HackForge</span>
+<div class="hidden md:flex items-center bg-surface-container-high/50 rounded-lg px-4 py-2 border border-outline-variant/20">
+<span class="material-symbols-outlined text-outline mr-2 text-sm">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 text-on-surface-variant w-64 p-0" placeholder="Command + K to search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-white/5 transition-colors rounded-lg active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-white/5 transition-colors rounded-lg active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a developer in a high-tech studio environment, lit by soft blue and teal neon lights reflecting off high-end hardware in the background. The aesthetic is clean and cinematic, echoing the Dark Innovation OS theme with a shallow depth of field focusing on the person's expression of focused expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFVtgQJ1ZqM6jtqecoqvVaveBBiD2yczg3dezwzGS-cxtuDDgXfQyEKdQVps_oNGoQQ7ba5dE-DhxiVkk8i1cUoOxOK28tRzY-OJOOkPHu4EjTcHKS5ejylM-eIFWmabEfGBJHsX4mwJz2GfV6TGlCTHygKWTQuOQxtItvt6masNQ_2o12d10avBDQ_16Jm-Wyq9UbXzAjQ5A8HlPBWsYh5bjZQwRTD_SvOS-fOwnlFRvBE79mMGe1"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-lowest dark:bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col pt-24 pb-8 hidden lg:flex">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+<div>
+<h3 class="font-headline text-sm font-bold text-on-surface">Forge OS</h3>
+<p class="text-[10px] text-outline uppercase tracking-widest">v4.0.1-alpha</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined text-lg">terminal</span>
+<span class="font-label text-sm">Command</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined text-lg">rocket_launch</span>
+<span class="font-label text-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined text-lg">hub</span>
+<span class="font-label text-sm">Nodes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(180,197,255,0.3)] transition-all" href="#">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined text-lg">inventory_2</span>
+<span class="font-label text-sm">Archive</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-1">
+<button class="w-full bg-primary text-on-primary font-headline text-sm font-bold py-3 rounded-lg mb-4 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all active:scale-95">
+                Deploy Project
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label text-xs">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="font-label text-xs">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="lg:ml-64 pt-24 pb-12 px-12 min-h-screen">
+<div class="max-w-[1440px] mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="font-headline text-4xl font-extrabold tracking-tighter text-on-surface mb-2">Analytics Hub</h1>
+<p class="text-on-surface-variant text-body-md">Real-time mission intelligence and developer performance metrics.</p>
+</div>
+<div class="flex gap-3">
+<button class="glass px-4 py-2 rounded-lg text-sm font-label flex items-center gap-2 hover:bg-white/5">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                        Last 24 Hours
+                    </button>
+<button class="bg-surface-container-highest px-4 py-2 rounded-lg text-sm font-label flex items-center gap-2 border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filters
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- 1. Event Health Command (Hero) -->
+<section class="col-span-12 lg:col-span-8 glass relative overflow-hidden p-8 rounded-xl min-h-[320px] flex flex-col justify-between">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] -z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-secondary pulse-live"></span>
+<span class="text-[10px] font-label uppercase tracking-widest text-secondary">Live System Status</span>
+</div>
+<h2 class="font-headline text-2xl font-bold">Event Health Command</h2>
+</div>
+<div class="flex gap-2">
+<span class="glass px-3 py-1 rounded-full text-[10px] font-label text-primary border-primary/20">GLOBAL_ID: EH_992</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
+<div class="space-y-1">
+<p class="text-outline text-xs font-label uppercase tracking-wider">Total Registrations</p>
+<p class="text-4xl font-headline font-extrabold text-on-surface">1,284</p>
+<p class="text-primary text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12%
+                            </p>
+</div>
+<div class="space-y-1">
+<p class="text-outline text-xs font-label uppercase tracking-wider">Approved</p>
+<p class="text-4xl font-headline font-extrabold text-on-surface">950</p>
+<p class="text-outline text-xs">74% Approval Rate</p>
+</div>
+<div class="space-y-1">
+<p class="text-outline text-xs font-label uppercase tracking-wider">Completion Rate</p>
+<p class="text-4xl font-headline font-extrabold text-on-surface">91%</p>
+<div class="w-full h-1 bg-surface-container-highest rounded-full mt-2">
+<div class="bg-primary h-full rounded-full" style="width: 91%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-outline text-xs font-label uppercase tracking-wider">Active Users</p>
+<p class="text-4xl font-headline font-extrabold text-on-surface">412</p>
+<p class="text-secondary text-xs">Crunch Time Peaks</p>
+</div>
+</div>
+<div class="mt-8 flex gap-4">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-surface shadow-sm" data-alt="Close-up portrait of a diverse female developer, soft cinematic lighting with purple and blue hues, studio photography, 8k resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXPcfD-Vletq7hzYfQ4Ygu0L9MciqTdX4ZXeBtcghWgCl7YF0Tktzn68ZgV9JMp6-mtY8FaEm_9jJ46n6L6JO4w5wfnXMrhulP2N5QsCS9zdmTNkv6fd-snDUFmkJ6iorUN6tvx2YxOtNB4AC5BJP9gYFiH00_diL5wKMYtNa2Ryhysy1j7ftt9s_qzI-do55QJTyOGVhrttf3CsQjzT34K6KcXn2dDUeHzNkbVnJS2H_dTMLXexzE"/>
+<img class="w-6 h-6 rounded-full border-2 border-surface shadow-sm" data-alt="Portrait of a young male coder with glasses, high-tech background with blurred computer screens, cinematic dark mode lighting, professional photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi9byphQ3EoUA4KSCPkYzKqEwKZ2dGxMXTHykgZUskSZIkfqRkkpcjK-JXGR2UbqdExSGZK30XuQ0B1JJGtJ_nRFIzuHhMDLLuq9kqqyQezI6bE-t_CnT6wmjkTW74nogkoY3Km1X5VwqGBtHlB_j7XZ8vbfUffUNxBBQaTwGFodrKcP8uN19pcX0Bm1fspSIZDF3stqxLy1TiZfWYyG1EVr1LaNsN8kXvkGccdJu_3eu0Bv8oSZcs"/>
+<img class="w-6 h-6 rounded-full border-2 border-surface shadow-sm" data-alt="A focused developer working in a dark room with subtle neon blue highlights, cinematic lighting, ultra-modern tech aesthetic, digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRnUAGwSalYUgCcu_2lGSkf7OmuG0lKLr-zc__-B4W7I8L4esMMgaH9fkzjuw8Z87BiUz05mcWWecgAoJ0y1MnWMZ6l7KYQr8GxlckOmoMc3rX99xTCV5P0WV-2WPPUGO2-i8KMAMY3bEdZW7wgl53MxFrYlZmTYpY1Z8u-CtAqy-f6nrow0sl1mdjRLLphjWK9Xq64JxAlVMqSSKNsBoAfoIMcUfS5UA1k3ZQbRVYH1UqhVb5FRAa"/>
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center text-[8px] font-bold">+18</div>
+</div>
+<p class="text-xs text-outline flex items-center">Newest nodes joined 4m ago</p>
+</div>
+</section>
+<!-- 8. AI Insights Command -->
+<section class="col-span-12 lg:col-span-4 glass-primary p-6 rounded-xl flex flex-col border-primary/20">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="font-headline text-lg font-bold text-primary">Forge AI Insights</h3>
+</div>
+<div class="space-y-4 flex-1">
+<div class="bg-black/20 p-4 rounded-lg border border-primary/10">
+<p class="text-sm leading-relaxed">
+<span class="font-bold text-on-primary-container">Protocol Alert:</span> Web3 submissions increased <span class="text-primary font-bold">31%</span> in the last 6 hours. High resource demand detected on Ethereum nodes.
+                            </p>
+</div>
+<div class="bg-black/20 p-4 rounded-lg border border-secondary/10">
+<p class="text-sm leading-relaxed">
+<span class="font-bold text-secondary">Bottleneck Detected:</span> Backend mentors are currently <span class="text-secondary font-bold">overloaded</span>. Average response time: 24m. Recommend re-routing senior nodes.
+                            </p>
+</div>
+</div>
+<button class="mt-6 w-full py-2 bg-primary/10 border border-primary/20 rounded-lg text-primary text-xs font-bold hover:bg-primary hover:text-on-primary transition-all">
+                        GENERATE FULL REPORT
+                    </button>
+</section>
+<!-- 2. Participant Intelligence -->
+<section class="col-span-12 md:col-span-4 glass p-6 rounded-xl flex flex-col">
+<h3 class="font-headline text-sm font-bold text-outline uppercase tracking-widest mb-6">Participant Intelligence</h3>
+<div class="flex items-center gap-4 mb-8">
+<div class="w-16 h-16 rounded-full glass flex items-center justify-center border-primary/30 relative">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="32" cy="32" fill="none" r="30" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-primary" cx="32" cy="32" fill="none" r="30" stroke="currentColor" stroke-dasharray="188.4" stroke-dashoffset="28.2" stroke-width="2"></circle>
+</svg>
+<span class="font-headline text-xl font-extrabold">15%</span>
+</div>
+<div>
+<p class="text-on-surface font-bold">Elite Status</p>
+<p class="text-xs text-outline">Top 15% Percentile</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center p-3 glass rounded-lg">
+<span class="text-xs font-label">Events Joined</span>
+<span class="font-headline font-bold">12</span>
+</div>
+<div class="flex justify-between items-center p-3 glass rounded-lg">
+<span class="text-xs font-label">Global Wins</span>
+<span class="font-headline font-bold text-secondary">2</span>
+</div>
+<div class="flex justify-between items-center p-3 glass rounded-lg">
+<span class="text-xs font-label">Total Commits</span>
+<span class="font-headline font-bold">2,410</span>
+</div>
+</div>
+</section>
+<!-- 4. Project & Repository Deep-Dive -->
+<section class="col-span-12 md:col-span-5 glass p-6 rounded-xl overflow-hidden relative">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-primary text-[10px] font-label font-bold uppercase tracking-widest mb-1">Live Repository</p>
+<h3 class="font-headline text-lg font-bold">Sentience-24 Core</h3>
+</div>
+<div class="flex items-center gap-2 bg-green-500/10 px-2 py-1 rounded text-[10px] text-green-400 font-bold border border-green-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                            ACTIVE
+                        </div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-4 glass rounded-lg border-white/5">
+<span class="material-symbols-outlined text-outline text-sm mb-2">history_edu</span>
+<p class="text-2xl font-headline font-extrabold">124</p>
+<p class="text-[10px] font-label text-outline uppercase">Total Commits</p>
+</div>
+<div class="p-4 glass rounded-lg border-white/5">
+<span class="material-symbols-outlined text-outline text-sm mb-2">verified</span>
+<p class="text-2xl font-headline font-extrabold">92%</p>
+<p class="text-[10px] font-label text-outline uppercase">README Score</p>
+</div>
+</div>
+<div class="p-4 glass rounded-lg border-primary/20 bg-primary/5">
+<div class="flex justify-between items-center mb-3">
+<p class="text-xs font-label text-on-surface">Deployment Uptime</p>
+<span class="text-xs font-bold text-primary">99.8%</span>
+</div>
+<div class="flex gap-1">
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-20"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-40"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-60"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-80"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-90"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm"></div>
+</div>
+</div>
+</section>
+<!-- 3. User Progress Timeline -->
+<section class="col-span-12 md:col-span-3 glass p-6 rounded-xl">
+<h3 class="font-headline text-sm font-bold text-outline uppercase tracking-widest mb-6">2025 Milestones</h3>
+<div class="relative pl-6 space-y-8 before:content-[''] before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-highest">
+<div class="relative">
+<div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<p class="text-[10px] font-label text-primary font-bold uppercase tracking-wider">Jan 12</p>
+<p class="text-sm font-bold text-on-surface">Winner (HackForge AI)</p>
+<p class="text-xs text-outline">Neural Network Architecture</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-surface-container-highest"></div>
+<p class="text-[10px] font-label text-outline font-bold uppercase tracking-wider">Feb 05</p>
+<p class="text-sm font-bold text-on-surface">Finalist (Healthcare Hack)</p>
+<p class="text-xs text-outline">Patient Flow Optimization</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-secondary ring-4 ring-secondary/20"></div>
+<p class="text-[10px] font-label text-secondary font-bold uppercase tracking-wider">Active</p>
+<p class="text-sm font-bold text-on-surface">AWS Challenge</p>
+<p class="text-xs text-outline">Building Cloud-Native</p>
+</div>
+</div>
+</section>
+<!-- 5. Technology Trends Radar -->
+<section class="col-span-12 md:col-span-4 glass p-6 rounded-xl">
+<h3 class="font-headline text-sm font-bold text-outline uppercase tracking-widest mb-6">Detected Stack</h3>
+<div class="space-y-5">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label">
+<span>Spring Boot</span>
+<span class="text-primary font-bold">62%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[62%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label">
+<span>React</span>
+<span class="text-primary font-bold">58%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[58%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label">
+<span>Python</span>
+<span class="text-primary font-bold">41%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[41%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label">
+<span>Rust</span>
+<span class="text-primary font-bold">28%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[28%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Team Synergy Analytics -->
+<section class="col-span-12 md:col-span-4 glass p-6 rounded-xl border-l-4 border-secondary/50">
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline text-sm font-bold text-outline uppercase tracking-widest">Team Quantum</h3>
+<span class="text-[10px] font-bold text-secondary">ALPHA UNIT</span>
+</div>
+<div class="flex items-center gap-6 mb-8">
+<div>
+<p class="text-4xl font-headline font-extrabold text-on-surface">95</p>
+<p class="text-xs text-outline">Health Score</p>
+</div>
+<div class="h-12 w-[1px] bg-surface-container-highest"></div>
+<div>
+<p class="text-4xl font-headline font-extrabold text-on-surface">28<span class="text-lg text-outline">/30</span></p>
+<p class="text-xs text-outline">Tasks Done</p>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="h-2 flex-1 rounded-full bg-secondary"></div>
+<div class="h-2 flex-1 rounded-full bg-secondary"></div>
+<div class="h-2 flex-1 rounded-full bg-secondary"></div>
+<div class="h-2 flex-1 rounded-full bg-secondary/20"></div>
+</div>
+<p class="mt-4 text-[10px] font-label text-outline leading-tight">Synergy is 12% higher than fleet average. Communication frequency within threshold.</p>
+</section>
+<!-- 7. Geographic Distribution -->
+<section class="col-span-12 md:col-span-4 glass p-6 rounded-xl flex flex-col">
+<h3 class="font-headline text-sm font-bold text-outline uppercase tracking-widest mb-6">Top Node Regions</h3>
+<div class="flex-1 space-y-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg glass flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Silicon Valley</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Central Hub • 422 Nodes</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg glass flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Bangalore</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">High Growth • 318 Nodes</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg glass flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">London</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Stable Density • 194 Nodes</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. Sponsor & Hiring Pipeline -->
+<section class="col-span-12 glass p-8 rounded-xl">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex-1">
+<h3 class="font-headline text-xl font-bold mb-2">Talent Heatmap</h3>
+<p class="text-on-surface-variant text-sm">Aggregated sponsor interaction metrics for current cohort.</p>
+</div>
+<div class="flex gap-12">
+<div class="text-center">
+<p class="text-3xl font-headline font-extrabold text-on-surface">142</p>
+<p class="text-xs font-label text-outline uppercase">Resume Downloads</p>
+</div>
+<div class="text-center">
+<p class="text-3xl font-headline font-extrabold text-primary">38</p>
+<p class="text-xs font-label text-outline uppercase">Shortlisted Candidates</p>
+</div>
+<div class="text-center">
+<p class="text-3xl font-headline font-extrabold text-secondary">14</p>
+<p class="text-xs font-label text-outline uppercase">Interviews Pending</p>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-headline font-bold px-8 py-3 rounded-lg hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all">
+                            Access Pipeline
+                        </button>
+</div>
+</section>
+</div>
+<!-- 10. Reports & Exports Action Bar -->
+<footer class="mt-12 flex flex-col md:flex-row items-center justify-between glass p-6 rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-4 mb-4 md:mb-0">
+<span class="material-symbols-outlined text-outline">cloud_download</span>
+<div>
+<p class="text-sm font-bold">Export Center</p>
+<p class="text-xs text-outline">System snapshots available in multiple formats.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="glass px-6 py-2 rounded-lg text-xs font-bold hover:bg-white/5 border border-white/5 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span> PDF
+                    </button>
+<button class="glass px-6 py-2 rounded-lg text-xs font-bold hover:bg-white/5 border border-white/5 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">csv</span> CSV
+                    </button>
+<button class="glass px-6 py-2 rounded-lg text-xs font-bold hover:bg-white/5 border border-white/5 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">data_object</span> JSON
+                    </button>
+</div>
+</footer>
+</div>
+</main>
+<script>
+        // Micro-interaction for live indicator
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.font-headline.font-extrabold');
+            counters.forEach(counter => {
+                const target = parseInt(counter.innerText.replace(/,/g, ''));
+                if (isNaN(target)) return;
+                
+                let count = 0;
+                const updateCounter = () => {
+                    const increment = target / 50;
+                    if (count < target) {
+                        count += increment;
+                        counter.innerText = Math.ceil(count).toLocaleString();
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                };
+                updateCounter();
+            });
+        });
+    </script>
+</body></html>

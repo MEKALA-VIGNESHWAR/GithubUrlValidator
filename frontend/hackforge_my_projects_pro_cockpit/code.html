@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HackForge OS | Builder Cockpit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(14, 19, 34, 0.8);
+        }
+        body {
+            background-color: #0e1322;
+            color: #dee2f7;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(210, 187, 255, 0.2);
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-primary:hover {
+            box-shadow: 0 0 15px rgba(210, 187, 255, 0.3);
+        }
+        .pulse-live {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .stagger-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards;
+        }
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-gradient {
+            background: linear-gradient(90deg, #7c3aed, #89ceff);
+        }
+        .ai-pulse-border {
+            position: relative;
+        }
+        .ai-pulse-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(45deg, #d2bbff, #ffb784, #7c3aed);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotate-gradient 4s linear infinite;
+        }
+        @keyframes rotate-gradient {
+            to { filter: hue-rotate(360deg); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#dee2f7",
+                        "on-surface-variant": "#ccc3d8",
+                        "tertiary-container": "#a15100",
+                        "secondary": "#89ceff",
+                        "surface-container": "#1a1f2e",
+                        "surface-container-low": "#161b2a",
+                        "on-primary": "#3f008e",
+                        "primary": "#d2bbff",
+                        "primary-container": "#7c3aed",
+                        "on-primary-container": "#ede0ff",
+                        "surface": "#0e1322",
+                        "on-surface": "#dee2f7",
+                        "outline": "#958da1",
+                        "outline-variant": "#4a4455",
+                    },
+                    "spacing": {
+                        "lg": "56px",
+                        "sm": "14px",
+                        "xs": "7px",
+                        "md": "28px",
+                        "xl": "84px",
+                        "base": "28px",
+                        "gutter": "28px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-sm": ["Geist"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-mono": ["13px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="dark bg-background text-on-background min-h-screen">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 z-50 w-full bg-surface/80 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-md py-sm shadow-2xl shadow-black/40">
+<div class="flex items-center gap-md">
+<span class="font-display-lg text-display-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">HackForge OS</span>
+<div class="hidden md:flex items-center bg-white/5 rounded-full px-sm py-xs border border-white/10">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64 text-on-surface" placeholder="Search components..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs hover:bg-white/5 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-xs hover:bg-white/5 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined text-primary">apps</span>
+</button>
+<div class="h-8 w-8 rounded-full border-2 border-primary-container p-0.5">
+<img class="h-full w-full rounded-full object-cover" data-alt="Close-up portrait of a developer in a dark studio setting with soft neon purple backlighting, emphasizing a modern tech-focused professional persona. High fidelity, cinematic lighting, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcjz9BK8ZBWJjWWjcUyNhOF9wbZk8oK_n4N14GDVby8bOAHl-OlNvC9guqYN2vsl3y7tYzfdtSUc5ZP8L-BzpYvImBNP-3UyKeNVW7-6kYwSyYBs2nq_8XNF-dStG7TqxQfheN0w0sCP_mkwL0MExrh1gzJ4fmHA0dEyWG7pcMWz_m2nFU7Qmy47ncumsXfE2PYKlbHYV2_1RNQbyEoS3b1eMCVO-c5120EF0ED9ilHYB91apLVEdc"/>
+</div>
+</div>
+</header>
+<div class="flex pt-[72px] min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="hidden md:flex fixed h-screen left-0 w-xl bg-surface-container-low/90 backdrop-blur-2xl border-r border-white/5 flex-col p-md space-y-md shadow-xl">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">hub</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">HackForge</h2>
+<p class="font-label-mono text-[10px] text-secondary">PREMIUM TIER</p>
+</div>
+</div>
+<nav class="flex-1 space-y-sm">
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-mono text-label-mono">Events</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-primary border-l-2 border-primary bg-primary-container/10" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-mono text-label-mono">Projects</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-label-mono text-label-mono">Nodes</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-mono text-label-mono">Analytics</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-mono text-label-mono">Archive</span>
+</a>
+</nav>
+<div class="pt-md border-t border-white/5 space-y-md">
+<div class="space-y-xs">
+<div class="flex justify-between text-xs font-label-mono">
+<span class="text-on-surface-variant">Storage</span>
+<span class="text-secondary">78%</span>
+</div>
+<div class="h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[78%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant/60">45.2 GB / 64 GB used</p>
+</div>
+<div class="flex items-center justify-between p-sm bg-primary-container/5 rounded-xl border border-primary/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary scale-75">bolt</span>
+<span class="font-label-mono text-xs">AI Credits</span>
+</div>
+<span class="font-label-mono text-primary text-xs">1,240</span>
+</div>
+<button class="w-full py-sm bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all scale-100 active:scale-95">Deploy Node</button>
+<div class="flex flex-col gap-xs pb-md">
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface py-1" href="#">
+<span class="material-symbols-outlined text-sm">settings</span>
+<span class="font-label-mono text-xs">Settings</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:text-on-surface py-1" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-mono text-xs">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-0 md:ml-xl flex-1 p-md lg:p-xl grid grid-cols-1 lg:grid-cols-10 gap-gutter overflow-y-auto">
+<!-- Header Section -->
+<section class="lg:col-span-10 stagger-in" style="animation-delay: 100ms;">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-2">Good Evening, Alex.</h1>
+<p class="text-on-surface-variant text-body-lg">You have <span class="text-primary font-bold">3 Active Hackathons</span> and <span class="text-secondary font-bold">2 AI Suggestions</span>.</p>
+</div>
+<div class="flex gap-sm">
+<div class="glass-card px-md py-sm rounded-2xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">speed</span>
+<div>
+<p class="text-[10px] font-label-mono text-on-surface-variant">DEV PRODUCTIVITY</p>
+<p class="font-bold text-lg">94.8</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 70% Primary Hero Content -->
+<div class="lg:col-span-7 space-y-gutter">
+<!-- Main Project Hero -->
+<div class="glass-card rounded-[32px] p-md md:p-xl relative overflow-hidden stagger-in" style="animation-delay: 200ms;">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -mr-20 -mt-20"></div>
+<div class="relative z-10">
+<div class="flex flex-wrap items-start justify-between gap-md mb-md">
+<div>
+<div class="flex items-center gap-sm mb-4">
+<span class="px-sm py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-label-mono">ID: SNT-24-CORE</span>
+<div class="flex items-center gap-2 bg-green-500/10 text-green-400 px-sm py-1 rounded-full text-xs font-bold">
+<span class="w-2 h-2 bg-green-400 rounded-full pulse-live"></span>
+                                        Live Build
+                                    </div>
+</div>
+<h2 class="text-display-lg font-display-lg mb-2">Sentience-24 Core</h2>
+<p class="text-on-surface-variant text-body-md max-w-md">Multi-agent cognitive architecture for distributed inference processing and real-time neural mapping.</p>
+</div>
+<div class="flex -space-x-3">
+<img class="w-12 h-12 rounded-full border-2 border-surface shadow-xl" data-alt="Close-up headshot of a software architect with glasses, tech studio lighting, professional atmosphere, navy blue tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9_R3vDoUYYN1bIKrrcZ-fqCd4xRzcBfiEcP2p_8PBGBBaQEQt7zUSrwz4jXXR-_672B0ueFgq1pZm1R3j72Ssb0UDfvNpuckFN72_jtT16QFcf3VAIWdCeu3vXnwbPSUkMxOYAn1uKU6rrsU-A2af7VWeCQs75Q_upVECyb_K6juDOGAZa43NV6v8f0wovw-ZfhnDgO5K__t7LqFr39D1XE4T7idxDQawpN8n7YEBwXnwTKSFgLPj"/>
+<img class="w-12 h-12 rounded-full border-2 border-surface shadow-xl" data-alt="Portrait of a female machine learning engineer in a sleek, dark office setting with subtle cyan accent lighting. Digital art style, ultra-high resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoJsReTjZiC03e2jlH4j57EjLyafXlGXBkuZr4VMANpgnjnYK18ZFSB3Ro1csfCPj3ANwx7XvXeKLW-oQSmO6l8ZJyga-N2zUzntsEWIKCBdftRvX3tTkXBDFFufadTnEHRhf2t7f458hklR41AJiBYqqap1INibbnuilnzFeItA-zTa51vgQJjrt0r3zLhGwvfSpxea61vyQHFiTFOjlgYyPf1mGmO7P8mh6E7s-oi___5e7kF_tj"/>
+<img class="w-12 h-12 rounded-full border-2 border-surface shadow-xl" data-alt="Confident senior developer in a futuristic office environment, soft bokeh background of servers, warm cinematic lighting, realistic textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7RbBpkln7c-kzjyNQVqnOZLIsh8dXMhYAraD4IunnLvaevoK6h1RmMAZ49_IXnJ_aI41MlXhl0Uzv4hzNnMEqnW7kSHAzZ4lWL5rM4tnhIiqn91CNYSo6UFu0f-17G1h3JvOx-YtXVyYBMDWtbtJWAoVQ-GCYrlisTCIXiZi3Z9CTLuohSqAjViEMKUh-mIiBGkx9ICFIK1SjZy5ZqbMKujKmZW4RkJosa-R3JuiXrBoltalk6jcl"/>
+<div class="w-12 h-12 rounded-full border-2 border-surface bg-surface-container-high flex items-center justify-center text-xs font-bold">+4</div>
+</div>
+</div>
+<!-- Heatmap Mockup -->
+<div class="mb-md">
+<p class="font-label-mono text-xs text-on-surface-variant mb-3 uppercase tracking-widest">GitHub Commit Heatmap</p>
+<div class="flex gap-1 overflow-x-auto pb-2">
+<!-- Generated heatmap items -->
+<div class="grid grid-rows-7 grid-flow-col gap-1">
+<script>
+                                        for(let i=0; i<350; i++) {
+                                            const opacity = [0.05, 0.1, 0.2, 0.5, 0.8][Math.floor(Math.random() * 5)];
+                                            document.write(`<div class="w-2.5 h-2.5 rounded-sm" style="background-color: rgba(210, 187, 255, ${opacity})"></div>`);
+                                        }
+                                    </script>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-white/5 border border-white/5 rounded-2xl p-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-label-mono text-on-surface-variant uppercase">Team Synergy</span>
+<span class="text-primary text-xs font-bold">88%</span>
+</div>
+<div class="h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full progress-gradient w-[88%]"></div>
+</div>
+</div>
+<div class="bg-white/5 border border-white/5 rounded-2xl p-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-label-mono text-on-surface-variant uppercase">Phase: Inference Integration</span>
+<span class="text-secondary text-xs font-bold">ACTIVE</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-primary rounded-full"></div>
+<div class="flex-1 bg-primary rounded-full"></div>
+<div class="flex-1 bg-primary/30 rounded-full"></div>
+<div class="flex-1 bg-white/5 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Component -->
+<div class="glass-card rounded-3xl p-md stagger-in" style="animation-delay: 300ms;">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-headline-sm">Project Timeline</h3>
+<span class="text-on-surface-variant font-label-mono text-xs">SPRINT 04 / WK 2</span>
+</div>
+<div class="relative flex items-center justify-between">
+<div class="absolute left-0 top-1/2 w-full h-0.5 bg-white/5 -translate-y-1/2 z-0"></div>
+<div class="absolute left-0 top-1/2 h-0.5 progress-gradient -translate-y-1/2 z-0 w-[60%]"></div>
+<!-- Timeline Nodes -->
+<div class="relative z-10 flex flex-col items-center gap-2 group">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_0_20px_rgba(124,58,237,0.4)]">
+<span class="material-symbols-outlined text-sm">lightbulb</span>
+</div>
+<span class="text-xs font-label-mono text-primary">Idea</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 group">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_0_20px_rgba(124,58,237,0.4)]">
+<span class="material-symbols-outlined text-sm">description</span>
+</div>
+<span class="text-xs font-label-mono text-primary">Planning</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 group">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_0_30px_rgba(124,58,237,0.6)] ring-4 ring-primary/20">
+<span class="material-symbols-outlined">code</span>
+</div>
+<span class="text-xs font-label-mono text-primary font-bold">Dev (Active)</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 group opacity-50">
+<div class="w-10 h-10 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">science</span>
+</div>
+<span class="text-xs font-label-mono">Testing</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 group opacity-50">
+<div class="w-10 h-10 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+</div>
+<span class="text-xs font-label-mono">Deploy</span>
+</div>
+</div>
+</div>
+<!-- Empty State Block -->
+<div class="border-2 border-dashed border-white/5 rounded-3xl p-xl flex flex-col items-center justify-center text-center stagger-in" style="animation-delay: 400ms;">
+<div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-md text-on-surface-variant/40">
+<span class="material-symbols-outlined text-4xl">folder_off</span>
+</div>
+<p class="text-on-surface-variant text-body-lg font-bold mb-2">No Inactive Projects</p>
+<p class="text-on-surface-variant/60 text-body-md mb-md max-w-xs">Everything is in full motion. Start your next innovation sprint whenever you're ready.</p>
+<button class="px-md py-sm bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all font-bold">Initiate New Sprint</button>
+</div>
+</div>
+<!-- 30% Progress & Status Rail -->
+<div class="lg:col-span-3 space-y-gutter">
+<!-- Who's Coding Section -->
+<div class="glass-card rounded-3xl p-md stagger-in" style="animation-delay: 500ms;">
+<h3 class="font-headline-sm text-lg mb-md">Who's Coding</h3>
+<div class="space-y-md">
+<div class="space-y-xs">
+<div class="flex justify-between items-center text-xs font-label-mono mb-1">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Portrait of a creative lead designer, vibrant red ambient lighting, futuristic fashion, crisp details, soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHkMq1W71hNHsqtHw5zdkJO_ljBdQuXYGteutS2p2JAZbSIUAgf9o25DJngEvSOdPsguCdsj1MpLyy8xfZj-6oWXP49QwKWhxud8D2gMrgUyswod3_Lzb0Fs9EDBwD6MKBtldeugqO8BS53symEl5SmQCSuknSeWaP6NdocvUwA8YV8Pxa4jnoVZeVokabnjyXUJXGfTK6IcTyd-5vHPV17--NEWHb4imsbjaI0FtFikgHLo1KGDw0"/>
+<span class="text-on-surface">Backend Architecture</span>
+</div>
+<span class="text-secondary">90%</span>
+</div>
+<div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[90%]"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between items-center text-xs font-label-mono mb-1">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Headshot of a software engineer, neutral office light, focus on eyes, blurred computer screens in background, professional look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeB9DqUsHJUvS_S_X1ahV1NCko4CDC-02gdzjycYdKVMdUlTTrCue_ggl-wENTEtUAU0stYkSVohdV9hQZFaCS7HCbXI0ezgSU9ZXWHIN9rbvosIM3pKnQ4c4SI-EM7RvEk4-fuwa3aAb1i8pGt7IgBSwmgqzKdB_TU8JXGFkAZDueBH_CNN6GlKoe-Qcuuk5LyFUOH-7yIgmdNsXimN7cJyer7GcKMXy9dcyYxBlKH9CweWtNQxcN"/>
+<span class="text-on-surface">ML Pipelines</span>
+</div>
+<span class="text-primary">40%</span>
+</div>
+<div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[40%]"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between items-center text-xs font-label-mono mb-1">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Close up of a DevOps expert in a server room, teal and amber cinematic lighting, focus on technology integration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJCwRNt_T7RpD7RkRx1gNJ65RlcQIv7ehfWTawlIMmb4WYe2KYX5rSZ6w2rnbc9msbfuetTTLryGrfCp3wFlE0z5bpUCW8U9ynGLZPnEQa72_48Hx5CP9MAaLCvVF6ZLi-Z9cdwA7EkuCp1n1ieSCaofxTscCTw8UVfHOjAD1ft-lmFUkkXE1PosgqCcZXRrBI13BC2WisLsE77dkXrGlg8Mgm-NwxKZmIc_abjYz9yCj4nAYd9wEa"/>
+<span class="text-on-surface">Infrastructure</span>
+</div>
+<span class="text-tertiary">65%</span>
+</div>
+<div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-[#ffb784] w-[65%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insight Widget -->
+<div class="ai-pulse-border p-md rounded-3xl bg-surface-container/30 backdrop-blur-xl stagger-in" style="animation-delay: 600ms;">
+<div class="flex items-center gap-sm mb-sm text-primary">
+<span class="material-symbols-outlined fill text-sm">auto_awesome</span>
+<span class="font-label-mono text-xs font-bold uppercase tracking-wider">AI Suggestion</span>
+</div>
+<p class="text-body-md text-on-surface italic leading-relaxed mb-md">
+                        ✨ AI suggests splitting <span class="text-primary font-bold">Backend tasks</span> for Sentience-24 to mitigate the bottleneck in the Inference Integration phase.
+                    </p>
+<button class="w-full py-sm bg-primary/10 border border-primary/20 text-primary font-bold rounded-xl text-sm hover:bg-primary/20 transition-all">Execute Refactor Plan</button>
+</div>
+<!-- Productivity Metrics -->
+<div class="glass-card rounded-3xl p-md stagger-in" style="animation-delay: 700ms;">
+<h3 class="font-label-mono text-xs text-on-surface-variant uppercase tracking-widest mb-md">System Health</h3>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-sm bg-white/5 rounded-xl border border-white/5">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">merge</span>
+<span class="text-sm font-label-mono">Merge Frequency</span>
+</div>
+<span class="text-secondary font-bold">12.4/day</span>
+</div>
+<div class="flex items-center justify-between p-sm bg-white/5 rounded-xl border border-white/5">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<span class="text-sm font-label-mono">Cycle Time</span>
+</div>
+<span class="text-primary font-bold">4.2 days</span>
+</div>
+</div>
+<div class="mt-md pt-md border-t border-white/5">
+<div class="h-24 w-full relative">
+<!-- Visual placeholder for a chart -->
+<svg class="w-full h-full overflow-visible" viewbox="0 0 200 60">
+<path class="text-primary" d="M0,45 Q20,35 40,50 T80,30 T120,40 T160,10 T200,20" fill="none" stroke="currentColor" stroke-width="2"></path>
+<path class="text-secondary opacity-50" d="M0,55 Q20,45 40,55 T80,40 T120,50 T160,20 T200,30" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+</div>
+<p class="text-center text-[10px] font-label-mono text-on-surface-variant/60 mt-2">Active Pull Requests Activity (7d)</p>
+</div>
+</div>
+<!-- Activity Timeline Mini -->
+<div class="glass-card rounded-3xl p-md stagger-in" style="animation-delay: 800ms;">
+<h3 class="font-headline-sm text-sm mb-md">Recent Activity</h3>
+<div class="space-y-md">
+<div class="flex gap-sm">
+<div class="w-2 h-2 rounded-full bg-secondary mt-1.5 shrink-0"></div>
+<div>
+<p class="text-xs text-on-surface leading-snug"><span class="font-bold">Alex</span> merged <code class="bg-white/5 px-1 rounded">auth-v2-stable</code></p>
+<p class="text-[10px] text-on-surface-variant/60">2 minutes ago</p>
+</div>
+</div>
+<div class="flex gap-sm">
+<div class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0"></div>
+<div>
+<p class="text-xs text-on-surface leading-snug"><span class="font-bold">Sarah</span> updated API docs</p>
+<p class="text-[10px] text-on-surface-variant/60">14 minutes ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button -->
+<button class="fixed bottom-md right-md w-16 h-16 bg-primary text-on-primary rounded-full shadow-[0_10px_40px_rgba(124,58,237,0.5)] flex items-center justify-center group hover:scale-110 transition-transform z-[60]">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add</span>
+</button>
+<script>
+        // Micro-interactions and Entrance Effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.stagger-in');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${(index + 1) * 100}ms`;
+            });
+            
+            // Randomly simulate real-time pulsing
+            setInterval(() => {
+                const liveBuild = document.querySelector('.pulse-live');
+                if(liveBuild) {
+                    liveBuild.style.boxShadow = `0 0 ${Math.random() * 10 + 5}px rgba(74, 222, 128, 0.5)`;
+                }
+            }, 1000);
+        });
+    </script>
+</body></html>

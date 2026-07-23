@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HackForge | Archive Hub v2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --surface: #0c0e16;
+            --primary: #b4c5ff;
+            --glass-bg: rgba(20, 25, 40, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            background-color: var(--surface);
+            color: #e1e2ed;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-headline { font-family: 'Geist', sans-serif; }
+        
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 80px -20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(180, 197, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        @keyframes fadeInStaggered {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stagger-item {
+            animation: fadeInStaggered 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #434655; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#552100",
+                        "tertiary-container": "#bc4800",
+                        "on-surface": "#e1e2ed",
+                        "on-background": "#e1e2ed",
+                        "surface-variant": "#32343d",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary-fixed": "#ffdbca",
+                        "outline": "#8d90a0",
+                        "inverse-surface": "#e1e2ed",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-container-lowest": "#0c0e16",
+                        "surface-bright": "#373942",
+                        "primary-container": "#2563eb",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-primary-fixed": "#00174b",
+                        "on-primary-container": "#eeefff",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-secondary-fixed-variant": "#783200",
+                        "primary": "#b4c5ff",
+                        "surface-container-highest": "#32343d",
+                        "error-container": "#93000a",
+                        "secondary": "#ffb690",
+                        "on-secondary-fixed": "#341100",
+                        "surface-tint": "#b4c5ff",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#dbe1ff",
+                        "background": "#11131b",
+                        "on-tertiary": "#581e00",
+                        "surface-container-high": "#282a32",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "inverse-on-surface": "#2e3039",
+                        "on-surface-variant": "#c3c6d7",
+                        "surface-container": "#1d1f27",
+                        "surface-container-low": "#191b23",
+                        "tertiary": "#ffb596",
+                        "inverse-primary": "#0053db",
+                        "secondary-fixed-dim": "#ffb690",
+                        "on-primary": "#002a78",
+                        "tertiary-fixed": "#ffdbcd",
+                        "secondary-container": "#ec6a06",
+                        "outline-variant": "#434655",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary-container": "#4a1c00",
+                        "surface-dim": "#11131b",
+                        "surface": "#11131b"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Geist"],
+                        "display": ["Geist"],
+                        "body": ["Inter"],
+                        "label": ["Geist"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-outline-variant/30 px-12 py-4 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<span class="font-headline text-2xl font-bold tracking-tighter text-primary">HackForge</span>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="bg-surface-container-high border border-outline-variant/30 rounded-lg pl-10 pr-12 py-2 w-80 text-sm focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline/50" placeholder="Search archive..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded border border-outline-variant/50 text-[10px] text-outline font-mono">⌘K</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-full border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+<span class="text-[10px] font-bold text-primary tracking-wider uppercase">System Live</span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden border border-primary/20 ring-4 ring-primary/5">
+<img class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0TogFmLydnAPaVRl7MM4_AaWEu6iw3sCwZan0CbFtiUvt2xqKOCn7Ikf7qFgBT_PI-PFeb9a4gqmxYI1Yq83lv6cfH0S8SYpga3d57pA4SR6rvhCy4-X87x5qz-q30cyRU7PXcYHm937FdL5tg0AolhPubZCJPhSCIM0cPK_zti7m1m_IqmW6VwDOFweX1WNARjB6jgM7K01SFmBMPPr1kRDH_I5IQhnSG9z_alnvculnAYcMKz33"/>
+</div>
+</div>
+</nav>
+<!-- Sidebar v2.0 -->
+<aside class="fixed left-0 top-0 h-full w-72 z-40 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col pt-24 pb-8">
+<div class="px-6 mb-8">
+<div class="flex items-center justify-between p-3 glass-panel rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">layers</span>
+</div>
+<div>
+<div class="font-headline font-bold text-sm text-primary">Main Workspace</div>
+<div class="text-[10px] text-outline uppercase tracking-widest">v2.0 Stable</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">unfold_more</span>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-4 overflow-y-auto">
+<div class="px-4 mb-2 text-[10px] font-bold text-outline uppercase tracking-widest opacity-50">Navigation</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-body text-sm">Command Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+<span class="font-body text-sm">Active Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary border-l-2 border-primary" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-body text-sm font-bold">Archive Vault</span>
+</a>
+<div class="px-4 mt-8 mb-2 text-[10px] font-bold text-outline uppercase tracking-widest opacity-50">System Metrics</div>
+<div class="px-4 py-4 glass-panel rounded-xl space-y-4">
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-outline">STORAGE</span>
+<span class="text-primary font-bold">78%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 78%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-outline">AI CREDITS</span>
+<span class="text-secondary font-bold">12.4k</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 65%"></div>
+</div>
+</div>
+</div>
+</nav>
+<div class="px-4 mt-auto space-y-1">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-transform">Deploy New Instance</button>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-body text-sm">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-72 pt-24 p-8 min-h-screen">
+<!-- Hero Header -->
+<header class="mb-10 flex flex-col md:flex-row justify-between items-end gap-6 stagger-item" style="animation-delay: 0.1s">
+<div>
+<div class="flex items-center gap-2 text-outline text-xs uppercase tracking-[0.2em] mb-3">
+<span class="opacity-50">Archival Vault</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">User Overview</span>
+</div>
+<h1 class="font-headline text-5xl font-extrabold tracking-tight text-on-surface">Archive Vault | <span class="text-primary">Hello Alex</span></h1>
+<p class="text-on-surface-variant mt-4 max-w-xl text-lg leading-relaxed">System-wide historical data for your verified contributions and global hackathon achievements.</p>
+</div>
+<div class="flex gap-4">
+<div class="glass-panel px-6 py-4 rounded-2xl border-primary/20 bg-primary/5">
+<div class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Events Joined</div>
+<div class="text-3xl font-headline font-black">14</div>
+</div>
+<div class="glass-panel px-6 py-4 rounded-2xl border-secondary/20 bg-secondary/5">
+<div class="text-[10px] text-secondary font-bold uppercase tracking-widest mb-1">Global Rank</div>
+<div class="text-3xl font-headline font-black">Top 8%</div>
+</div>
+</div>
+</header>
+<!-- 70/30 Split Layout -->
+<div class="grid grid-cols-10 gap-7">
+<!-- Primary Content Area (70%) -->
+<div class="col-span-7 space-y-7">
+<!-- AI Insights Banner -->
+<div class="glass-panel p-5 rounded-2xl border-primary/30 bg-primary/5 flex items-center gap-4 stagger-item" style="animation-delay: 0.2s">
+<div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="text-sm font-bold text-primary">AI Insight: Innovation Trends</div>
+<p class="text-xs text-on-surface-variant">Archive analysis suggests a shift to Rust and WASM for high-performance edge solutions. <span class="text-primary cursor-pointer hover:underline">View 2024 winning patterns →</span></p>
+</div>
+</div>
+<!-- Champions Hall -->
+<section class="stagger-item" style="animation-delay: 0.3s">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">workspace_premium</span>
+                        Champions Hall
+                    </h3>
+<button class="text-xs text-primary font-bold hover:underline">Full Leaderboard History</button>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<!-- High-End Champion Card 1 -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-black shadow-lg">1st</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl bg-surface-container overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="NeuralLink project" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqmAMJRYmvxpYlRyTkLLmVNGn5jO9YYlzDeNAm5R0mFXoZqHpHz2oN2m_Na1mK2Gq_b2Ra6XhtUJERurVvYTTcn4RVS7ct58aLOyhTwpmEx3iqvftETVojb-MB5xKBSUDyHQzaYyYyeR05X2RWGKZnFEZoDxAzt1BnhenWPqMjPwrW5WwIUsuUqE0HGaWJOOuIM2x-TPacJNS5J_Sbo7zvzQ25N1k2YgH_CUU7T1q-JgP72wcMXV_B"/>
+</div>
+<div>
+<h4 class="font-bold text-lg">Team NeuralLink</h4>
+<p class="text-xs text-outline">Quantum Data Visualizer</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp7jEHn0aadyEckb4dhJhwPgflRTvWcjtd2YmrEEQ2QkDMZRpS9lvQkQ1FVp1LpJSQlvL-jto-pRzhk9P_cYo9ItyWHgiliMf7a35vsLdgf6QcHcj6TL6Fs6pb-rXE0lAPBe2_wT-hLPtAJmUiN5v6OOqZXyVTsAOkFn8jPLolui56mY69ig4fnUvnjCEeXLwJFexfaGVY-68TmETLzPeGqkKlUl1tmF-HiEksmz8Txd5n-pIJB5vp"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface-container" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH0KR-5KYCdNexOG2fBZ9R4xtx2LVp7MmIVDNqQJcW7Q-yUTAi2uPXu0ji3aVeSxZ0bRoJgTtTz8m22hA8J-sVlrZ5vy8kwQY36C5DqgJPBP2yO6XwXeYortdQRvpdgIJuOKVho29BYXLBYfF5_sEPX7TF7BCAZhq1IBRZ-_kwc8CrlPA_CVd8JvKHhGY_KsVt3r9hqpzC-1BM6lxMoFsSFepnCaE4qrVDX7jMVZKOH_AfDdXFdYeC"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border-2 border-surface-container flex items-center justify-center text-[10px] font-bold">+2</div>
+</div>
+<div class="flex gap-2">
+<span class="px-2 py-1 rounded bg-secondary/10 text-secondary text-[10px] font-black uppercase">Innovation Award</span>
+</div>
+</div>
+</div>
+<!-- High-End Champion Card 2 -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<div class="w-10 h-10 rounded-full bg-outline-variant flex items-center justify-center text-on-surface font-black">2nd</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl bg-surface-container overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Helios project" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxF-HHfUaqq4-Ud9Xu8gICDqVHeSl7OoD7Vvbl3RTBeIADJ8Lvkhfd4jTHqtKq6DwaF1UVVaavdEOqZzFqpMOLN4iUGvoJBYaLcHskQcOjrdtlZkjGwlXGNlFLPE0MUmiRvf69H4gsIq1jjB0fKrvS9XKV80HfF59P_YMMXEt2Ho4yD-yG823XVwh3vI3miWHYhmiW_O2MZBihaiIvB1Kjub2LykU01gpJXphjiqTrMqDjWREFdiH8"/>
+</div>
+<div>
+<h4 class="font-bold text-lg">Project Helios</h4>
+<p class="text-xs text-outline">Smart Grid Optimization</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_BYgtWPqr01Wgub1_rTK9HH482qXtRyaxx5BYJwNM20N0ETWxwc740XoD1ACDwkAi-cEnM_0918HgSqBfa3J2vf-Nlz0fky8FPVD51svtvoQJpA5mDzqL2bErru-K0CKo3PISkaygVYcVOsL-dYS7uOIHjSYplWEjDu8eZnbZ-_N4vsek3zJodmqDm2zQFD7OldWpm9xa2DL88_msZHEu0AXreJr8Qo6tg0V-LrTZRU9E-M4Qn5pR"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface-container" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhEMXRXEQPzRQPCjf-BkimzRASPx68aVTmy8mt4t7-pqcgNFIPCYzR3hYQIOhKu-2CSyWPFe9C9m9Vo5FunBwv0sCTmOMzQJM--x0PwqVH9tu0XGgxK00JbfhS3g0JZDULYpn0JzT5CtS3QbyZAlWEoVE9sXlsBErqVS43fcSOchWrUjWD_FNfm5PlobnavSaQnzKIm64hc10S6LhqB91NUEycC829yaT-sisAoqbBzXTZt88Dh7x4"/>
+</div>
+<div class="flex gap-2">
+<span class="px-2 py-1 rounded bg-primary/10 text-primary text-[10px] font-black uppercase">Eco-Efficient</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Showcase Gallery -->
+<section class="stagger-item" style="animation-delay: 0.4s">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">grid_view</span>
+                        Archived Projects
+                    </h3>
+<div class="flex items-center gap-2 bg-surface-container p-1 rounded-lg border border-outline-variant/30">
+<button class="p-1.5 bg-primary/10 text-primary rounded shadow-sm"><span class="material-symbols-outlined text-sm">format_list_bulleted</span></button>
+<button class="p-1.5 text-outline hover:text-on-surface"><span class="material-symbols-outlined text-sm">grid_view</span></button>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Project Detail Card 1 -->
+<div class="glass-card p-5 rounded-2xl flex gap-6 items-center group">
+<div class="w-24 h-24 rounded-xl bg-surface-container-highest overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Aether.OS project image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqmAMJRYmvxpYlRyTkLLmVNGn5jO9YYlzDeNAm5R0mFXoZqHpHz2oN2m_Na1mK2Gq_b2Ra6XhtUJERurVvYTTcn4RVS7ct58aLOyhTwpmEx3iqvftETVojb-MB5xKBSUDyHQzaYyYyeR05X2RWGKZnFEZoDxAzt1BnhenWPqMjPwrW5WwIUsuUqE0HGaWJOOuIM2x-TPacJNS5J_Sbo7zvzQ25N1k2YgH_CUU7T1q-JgP72wcMXV_B"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h5 class="font-bold text-lg">Aether.OS Layer 2</h5>
+<div class="text-right">
+<div class="text-[10px] text-outline uppercase font-bold tracking-widest mb-1">Innovation Score</div>
+<div class="text-primary font-mono font-black">98.4 <span class="text-[10px] text-outline">/ 100</span></div>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant mb-3 line-clamp-1">Decentralized governance module for micro-economies with edge-based consensus.</p>
+<div class="flex items-center gap-3">
+<div class="flex gap-1.5">
+<span class="px-2 py-0.5 bg-surface-container text-[9px] font-bold text-outline rounded uppercase">Rust</span>
+<span class="px-2 py-0.5 bg-surface-container text-[9px] font-bold text-outline rounded uppercase">Wasm</span>
+<span class="px-2 py-0.5 bg-surface-container text-[9px] font-bold text-outline rounded uppercase">Solana</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/30 mx-1"></div>
+<div class="flex items-center gap-1.5 text-[10px] text-green-500 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                    DEPLOYED
+                                </div>
+</div>
+</div>
+<button class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- Project Detail Card 2 -->
+<div class="glass-card p-5 rounded-2xl flex gap-6 items-center group">
+<div class="w-24 h-24 rounded-xl bg-surface-container-highest overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="SynthVision Engine project" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9WEZ2XyHc4nGXrpp0n_WxLmnTJMmP68l_1Cbq5VeLlIJ1SClRYFGnrFHrUoMlHKDW-oGAuweEwSgSyxIq9KU0dzBpbwgB_3jbErvAwLXZznB9kA6g0iLbiz_0srjxLP1svIoh7T0CiF4RL1wc1jZd8Zt357QdjCrRnM0IRaoDL9G_5FNF0_Ucz2rmGKIkkmFWbRB7aH4qXOvGt4QzU--dUrRgAZsGe7-t1uSoMI17MlElyEYofN2f"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h5 class="font-bold text-lg">SynthVision Engine</h5>
+<div class="text-right">
+<div class="text-[10px] text-outline uppercase font-bold tracking-widest mb-1">Innovation Score</div>
+<div class="text-primary font-mono font-black">94.1 <span class="text-[10px] text-outline">/ 100</span></div>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant mb-3 line-clamp-1">Real-time object detection with low-latency edge inference for robotics.</p>
+<div class="flex items-center gap-3">
+<div class="flex gap-1.5">
+<span class="px-2 py-0.5 bg-surface-container text-[9px] font-bold text-outline rounded uppercase">Python</span>
+<span class="px-2 py-0.5 bg-surface-container text-[9px] font-bold text-outline rounded uppercase">TensorFlow</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/30 mx-1"></div>
+<div class="flex items-center gap-1.5 text-primary/50 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
+                                    ARCHIVED
+                                </div>
+</div>
+</div>
+<button class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Archived Events (Legacy Layout Retained) -->
+<section class="stagger-item" style="animation-delay: 0.5s">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-xl font-bold">Historical Events</h3>
+<div class="flex gap-4">
+<select class="bg-surface-container border-none text-xs text-outline rounded-lg focus:ring-1 focus:ring-primary">
+<option>Year: 2026</option>
+<option>Year: 2025</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Cybersecurity landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIoOOtuowMgfR7F8W_ALmKjeiql1UEKrOTJbrNa6BGBHA652el2OiagOxgb_TfBA4eKE_D223JRBZcd2RaODWeqXZznrMk_K_qYaCVyicfjEAGSPsshwCK7hZ8uOqtzHrm2fN0Y5j-KUI__nnkEUs3ABNsC-uxsmfsO2o7mUWm6524P2zzwu1zm3ldHSvh52wlAIqSur2XQrhnGaxEZUWgLKiLncgF559JMAYF1xAn2x7L5ea6vxMb"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary/20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold text-primary border border-primary/20">COMPLETED</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<h4 class="font-headline font-bold mb-1">AI Innovation Challenge 2026</h4>
+<p class="text-[10px] text-outline uppercase tracking-widest mb-4">42 Projects · $50k Pool</p>
+<button class="mt-auto border border-outline-variant/30 py-2 rounded-xl text-xs font-bold hover:border-primary transition-all flex items-center justify-center gap-2">
+                                View Event Details <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+</div>
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Data center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxF-HHfUaqq4-Ud9Xu8gICDqVHeSl7OoD7Vvbl3RTBeIADJ8Lvkhfd4jTHqtKq6DwaF1UVVaavdEOqZzFqpMOLN4iUGvoJBYaLcHskQcOjrdtlZkjGwlXGNlFLPE0MUmiRvf69H4gsIq1jjB0fKrvS9XKV80HfF59P_YMMXEt2Ho4yD-yG823XVwh3vI3miWHYhmiW_O2MZBihaiIvB1Kjub2LykU01gpJXphjiqTrMqDjWREFdiH8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary/20 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold text-primary border border-primary/20">COMPLETED</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<h4 class="font-headline font-bold mb-1">Web3 Global Infrastructure</h4>
+<p class="text-[10px] text-outline uppercase tracking-widest mb-4">18 Projects · $25k Pool</p>
+<button class="mt-auto border border-outline-variant/30 py-2 rounded-xl text-xs font-bold hover:border-primary transition-all flex items-center justify-center gap-2">
+                                View Event Details <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Secondary Telemetry Rail (30%) -->
+<div class="col-span-3 space-y-7">
+<!-- Historical Analytics -->
+<section class="glass-panel p-6 rounded-2xl stagger-item" style="animation-delay: 0.25s">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-headline font-bold text-sm">System Growth Vectors</h3>
+<p class="text-[10px] text-outline uppercase tracking-wider">Metrics 2024-2026</p>
+</div>
+<span class="material-symbols-outlined text-primary text-xl">query_stats</span>
+</div>
+<!-- Animated-style area chart visualization -->
+<div class="h-40 flex items-end justify-between gap-3 px-2 mb-4">
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex items-end justify-center gap-1 h-32">
+<div class="w-3 bg-primary/30 h-1/3 rounded-t-sm group-hover:h-1/2 transition-all duration-700"></div>
+<div class="w-3 bg-secondary/30 h-1/4 rounded-t-sm group-hover:h-1/3 transition-all duration-700"></div>
+</div>
+<span class="text-[9px] font-bold text-outline">2024</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex items-end justify-center gap-1 h-32">
+<div class="w-3 bg-primary/60 h-2/3 rounded-t-sm group-hover:h-3/4 transition-all duration-700"></div>
+<div class="w-3 bg-secondary/60 h-1/2 rounded-t-sm group-hover:h-2/3 transition-all duration-700"></div>
+</div>
+<span class="text-[9px] font-bold text-outline">2025</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex items-end justify-center gap-1 h-32">
+<div class="w-3 bg-primary h-full rounded-t-sm shadow-[0_0_15px_rgba(180,197,255,0.4)]"></div>
+<div class="w-3 bg-secondary h-3/4 rounded-t-sm shadow-[0_0_15px_rgba(249,115,22,0.4)]"></div>
+</div>
+<span class="text-[9px] font-bold text-primary">2026</span>
+</div>
+</div>
+<div class="flex justify-center gap-4 text-[10px] font-bold">
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span> REGISTRATIONS</div>
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span> COMPLETIONS</div>
+</div>
+</section>
+<!-- Credential Vault -->
+<section class="glass-panel p-6 rounded-2xl stagger-item" style="animation-delay: 0.35s">
+<h3 class="font-headline font-bold text-sm mb-5 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">lock</span>
+                    Credential Vault
+                </h3>
+<div class="space-y-3">
+<div class="p-3 bg-surface-container rounded-xl border border-outline-variant/30 flex items-center justify-between group cursor-pointer hover:border-primary transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">description</span>
+</div>
+<div>
+<div class="text-[11px] font-bold">Participation_Cert_2026.pdf</div>
+<div class="text-[9px] text-outline uppercase">Forge AI Signed</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm opacity-0 group-hover:opacity-100 transition-opacity">download</span>
+</div>
+<div class="p-3 bg-surface-container rounded-xl border border-outline-variant/30 flex items-center justify-between group cursor-pointer hover:border-primary transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-sm">workspace_premium</span>
+</div>
+<div>
+<div class="text-[11px] font-bold">Winner_Badge_Elite.svg</div>
+<div class="text-[9px] text-outline uppercase">Global Rank Verify</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm opacity-0 group-hover:opacity-100 transition-opacity">download</span>
+</div>
+</div>
+<div class="mt-5 p-3 rounded-xl bg-primary/5 border border-primary/20 flex items-center justify-between">
+<div class="text-[10px] text-primary font-black">ENCRYPTION: 4096-BIT</div>
+<div class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></div>
+</div>
+</section>
+<!-- Event Reports & History Timeline -->
+<section class="glass-panel p-6 rounded-2xl stagger-item" style="animation-delay: 0.45s">
+<h3 class="font-headline font-bold text-sm mb-5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">history</span>
+                    Forge Timeline
+                </h3>
+<div class="space-y-6 relative pl-3">
+<div class="absolute left-[15px] top-2 bottom-2 w-[1px] bg-outline-variant/30"></div>
+<div class="relative pl-6">
+<div class="absolute left-0 top-1 w-2 h-2 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="text-[10px] text-primary font-bold mb-1">DEC 2026</div>
+<div class="text-xs font-bold">AI Innovation Challenge</div>
+<p class="text-[10px] text-outline mt-1">1,240 Participants · 42 Countries</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute left-0 top-1 w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="text-[10px] text-outline font-bold mb-1">JUN 2026</div>
+<div class="text-xs font-bold opacity-70">Quantum Web Hack</div>
+<p class="text-[10px] text-outline mt-1">850 Participants · 31 Countries</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute left-0 top-1 w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="text-[10px] text-outline font-bold mb-1">JAN 2026</div>
+<div class="text-xs font-bold opacity-70">Sustainability Protocol</div>
+<p class="text-[10px] text-outline mt-1">620 Participants · 18 Countries</p>
+</div>
+</div>
+<button class="w-full mt-6 py-2.5 rounded-xl border border-outline-variant/30 text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-colors">
+                    Download Full Event Impact Report (.csv)
+                </button>
+</section>
+<!-- Deployment Status -->
+<section class="glass-panel p-6 rounded-2xl stagger-item" style="animation-delay: 0.55s">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-[10px] font-bold text-outline uppercase tracking-widest">Global Vault Status</h4>
+<span class="text-[10px] font-mono text-green-500">OPTIMIZED</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] text-on-surface-variant uppercase">Archived URLs Online</span>
+<span class="text-[10px] font-mono text-primary">92%</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] text-on-surface-variant uppercase">AI Verification</span>
+<span class="text-[10px] font-mono text-secondary">100%</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer System Info -->
+<footer class="mt-16 flex justify-between items-center text-[10px] text-outline uppercase tracking-[0.3em] opacity-40 px-4">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
+            Archival Access: Authenticated-0x84F2
+        </div>
+<div>HackForge Systems © 2026 — Archive OS v2.0</div>
+</footer>
+</main>
+<!-- Ambient Background Effects -->
+<div class="fixed top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[150px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-[-5%] left-[-5%] w-[30%] h-[30%] bg-secondary/5 blur-[120px] pointer-events-none -z-10"></div>
+</body></html>
