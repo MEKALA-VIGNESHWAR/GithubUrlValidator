@@ -27,13 +27,28 @@ public class User {
     private Role role;
 
     private String profilePicture;
-
     private String providerId;
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
     private Long organizationId;
+
+    private String fullName;
+    private String bio;
+    private String skills;
+    private String githubUrl;
+    private String linkedinUrl;
+    private String resumeUrl;
+    private String portfolioUrl;
+    private String country;
+    private String university;
+
+    private String refreshToken;
+    private String resetPasswordToken;
+    private LocalDateTime resetPasswordTokenExpiry;
+    private boolean emailVerified = true;
+    private boolean deleted = false;
 
     private LocalDateTime createdAt;
 
@@ -49,6 +64,7 @@ public class User {
         this.password = password;
         this.role = role != null ? role : Role.PARTICIPANT;
         this.createdAt = LocalDateTime.now();
+        this.provider = AuthProvider.LOCAL;
     }
 
     public Long getId() { return id; }
@@ -77,6 +93,48 @@ public class User {
 
     public Long getOrganizationId() { return organizationId; }
     public void setOrganizationId(Long organizationId) { this.organizationId = organizationId; }
+
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+
+    public String getBio() { return bio; }
+    public void setBio(String bio) { this.bio = bio; }
+
+    public String getSkills() { return skills; }
+    public void setSkills(String skills) { this.skills = skills; }
+
+    public String getGithubUrl() { return githubUrl; }
+    public void setGithubUrl(String githubUrl) { this.githubUrl = githubUrl; }
+
+    public String getLinkedinUrl() { return linkedinUrl; }
+    public void setLinkedinUrl(String linkedinUrl) { this.linkedinUrl = linkedinUrl; }
+
+    public String getResumeUrl() { return resumeUrl; }
+    public void setResumeUrl(String resumeUrl) { this.resumeUrl = resumeUrl; }
+
+    public String getPortfolioUrl() { return portfolioUrl; }
+    public void setPortfolioUrl(String portfolioUrl) { this.portfolioUrl = portfolioUrl; }
+
+    public String getCountry() { return country; }
+    public void setCountry(String country) { this.country = country; }
+
+    public String getUniversity() { return university; }
+    public void setUniversity(String university) { this.university = university; }
+
+    public String getRefreshToken() { return refreshToken; }
+    public void setRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
+
+    public String getResetPasswordToken() { return resetPasswordToken; }
+    public void setResetPasswordToken(String resetPasswordToken) { this.resetPasswordToken = resetPasswordToken; }
+
+    public LocalDateTime getResetPasswordTokenExpiry() { return resetPasswordTokenExpiry; }
+    public void setResetPasswordTokenExpiry(LocalDateTime resetPasswordTokenExpiry) { this.resetPasswordTokenExpiry = resetPasswordTokenExpiry; }
+
+    public boolean isEmailVerified() { return emailVerified; }
+    public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
+
+    public boolean isDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

@@ -34,14 +34,19 @@ public class Hackathon {
     @Column(length = 2000)
     private String prizes;
 
+    private String organizer;
+    private String location;
+    private Integer capacity = 500;
+    private Integer registeredCount = 0;
+    private String prizePool = "$50,000";
+    private String difficulty = "Intermediate";
+    private String track = "AI & Web3";
+    private boolean archived = false;
+
     private LocalDateTime startDate;
-
     private LocalDateTime endDate;
-
     private LocalDateTime submissionDeadline;
-
     private Boolean isPublished;
-
     private LocalDateTime createdAt;
 
     public Hackathon() {
@@ -87,6 +92,30 @@ public class Hackathon {
 
     public String getPrizes() { return prizes; }
     public void setPrizes(String prizes) { this.prizes = prizes; }
+
+    public String getOrganizer() { return organizer; }
+    public void setOrganizer(String organizer) { this.organizer = organizer; }
+
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+
+    public Integer getCapacity() { return capacity; }
+    public void setCapacity(Integer capacity) { this.capacity = capacity; }
+
+    public Integer getRegisteredCount() { return registeredCount; }
+    public void setRegisteredCount(Integer registeredCount) { this.registeredCount = registeredCount; }
+
+    public String getPrizePool() { return prizePool; }
+    public void setPrizePool(String prizePool) { this.prizePool = prizePool; }
+
+    public String getDifficulty() { return difficulty; }
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+
+    public String getTrack() { return track; }
+    public void setTrack(String track) { this.track = track; }
+
+    public boolean isArchived() { return archived; }
+    public void setArchived(boolean archived) { this.archived = archived; }
 
     public LocalDateTime getStartDate() { return startDate; }
     public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }

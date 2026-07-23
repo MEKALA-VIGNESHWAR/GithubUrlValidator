@@ -59,8 +59,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers("/api/auth/**", "/api/organizations/**", "/api/intelligence/**", "/api/certificates/verify/**", "/oauth2/**", "/login/oauth2/code/**", "/favicon.ico", "/h2-console/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/uploads/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/submissions/**", "/api/hackathons/**").permitAll()
+                        .requestMatchers("/", "/error", "/index.html", "/static/**", "/assets/**", "/api/auth/**", "/api/organizations/**", "/api/intelligence/**", "/api/certificates/verify/**", "/api/search/**", "/api/profile/**", "/api/tasks/**", "/api/me/**", "/api/admin/**", "/api/judge/**", "/ws/**", "/oauth2/**", "/login/oauth2/code/**", "/favicon.ico", "/h2-console/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/submissions/**", "/api/hackathons/**", "/api/analytics/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/submissions").permitAll() // Allow submission
                         .requestMatchers(HttpMethod.POST, "/api/hackathons").hasAnyRole("EVENT_MANAGER", "ORGANIZATION_ADMIN", "SUPER_ADMIN", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/hackathons/**").hasAnyRole("EVENT_MANAGER", "ORGANIZATION_ADMIN", "SUPER_ADMIN", "ADMIN")

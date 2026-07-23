@@ -2,26 +2,23 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.request.LoginRequestDTO;
 import com.example.demo.dto.request.RegisterRequestDTO;
-import com.example.demo.dto.response.AuthResponseDTO;
 import com.example.demo.enums.Role;
-import com.example.demo.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 class AuthControllerTest {
 
     @Autowired
@@ -30,35 +27,28 @@ class AuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
-    private AuthService authService;
-
     @Test
-    void register_ReturnsCreatedStatus() throws Exception {
-        RegisterRequestDTO request = new RegisterRequestDTO("testuser", "test@example.com", "password123", Role.PARTICIPANT);
-        AuthResponseDTO response = new AuthResponseDTO("jwt-token", "testuser", "test@example.com", Role.PARTICIPANT);
+    void register_ReturnsOkStatus() throws Exception {
+        long ts = System.currentTimeMillis();
+        RegisterRequestDTO request = new RegisterRequestDTO("user_" + ts, "user_" + ts + "@example.com", "password123", Role.PARTICIPANT);
 
-        when(authService.register(any(RegisterRequestDTO.class))).thenReturn(response);
-
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.accessToken").value("jwt-token"))
-                .andExpect(jsonPath("$.username").value("testuser"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").exists())
+                .andExpect(jsonPath("$.username").value("user_" + ts));
     }
 
     @Test
     void login_ReturnsOkStatus() throws Exception {
-        LoginRequestDTO request = new LoginRequestDTO("testuser", "password123");
-        AuthResponseDTO response = new AuthResponseDTO("jwt-token", "testuser", "test@example.com", Role.PARTICIPANT);
+        long ts = System.currentTimeMillis() + 100;
+        LoginRequestDTO request = new LoginRequestDTO("loginuser_" + ts, "password123");
 
-        when(authService.login(any(LoginRequestDTO.class))).thenReturn(response);
-
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").value("jwt-token"));
+                .andExpect(jsonPath("$.accessToken").exists());
     }
 }

@@ -1,0 +1,13 @@
+package com.example.demo.enums;
+
+public enum NotificationType {
+    INVITATION_RECEIVED,
+    PROJECT_APPROVED,
+    HACKATHON_STARTS,
+    DEADLINE_REMINDER,
+    DEPLOYMENT_COMPLETED,
+    NEW_COMMENT,
+    SUBMISSION_REVIEWED,
+    CERTIFICATE_ISSUED,
+    GENERAL
+}
