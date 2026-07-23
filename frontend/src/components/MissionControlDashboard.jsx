@@ -42,15 +42,15 @@ export default function MissionControlDashboard({ submissions, onUpdateStatus })
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       
       {/* --- TOP CONTROL BAR: EVENT OVERVIEW & ROLE SWITCHER --- */}
-      <div className="glass-panel glow-card-blue" style={{ padding: '28px', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(37, 99, 235, 0.12))' }}>
+      <div className="glass-panel glow-card-cyan" style={{ padding: '28px', background: 'linear-gradient(135deg, rgba(2, 73, 80, 0.95), rgba(15, 164, 175, 0.18))' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
               <span className="live-pulse-dot"></span>
-              <span style={{ fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', color: '#10b981', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', color: '#0FA4AF', textTransform: 'uppercase' }}>
                 MISSION CONTROL • LIVE OPERATIONS
               </span>
-              <span style={{ fontSize: '0.75rem', background: 'rgba(37, 99, 235, 0.2)', color: '#60a5fa', padding: '2px 10px', borderRadius: '12px', fontWeight: '700' }}>
+              <span style={{ fontSize: '0.75rem', background: 'rgba(15, 164, 175, 0.25)', color: '#AFDDE5', padding: '2px 10px', borderRadius: '12px', fontWeight: '700' }}>
                 LIVE PERSISTENCE
               </span>
             </div>

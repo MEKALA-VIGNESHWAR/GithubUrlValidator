@@ -59,7 +59,8 @@ public class Hackathon {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Hackathon(Long organizationId, String title, String slug, String eventType, String description, LocalDateTime submissionDeadline) {
+    public Hackathon(Long organizationId, String title, String slug, String eventType, String description,
+            LocalDateTime submissionDeadline) {
         this.organizationId = organizationId;
         this.title = title;
         this.slug = slug != null ? slug.toLowerCase().trim() : "";
@@ -70,72 +71,187 @@ public class Hackathon {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getOrganizationId() { return organizationId; }
-    public void setOrganizationId(Long organizationId) { this.organizationId = organizationId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public Long getOrganizationId() {
+        return organizationId;
+    }
 
-    public String getSlug() { return slug; }
-    public void setSlug(String slug) { this.slug = slug; }
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
+    }
 
-    public String getEventType() { return eventType; }
-    public void setEventType(String eventType) { this.eventType = eventType; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getFormat() { return format; }
-    public void setFormat(String format) { this.format = format; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public HackathonStatus getStatus() { return status; }
-    public void setStatus(HackathonStatus status) { this.status = status; }
+    public String getSlug() {
+        return slug;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
 
-    public String getRules() { return rules; }
-    public void setRules(String rules) { this.rules = rules; }
+    public String getEventType() {
+        return eventType;
+    }
 
-    public String getPrizes() { return prizes; }
-    public void setPrizes(String prizes) { this.prizes = prizes; }
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
 
-    public String getOrganizer() { return organizer; }
-    public void setOrganizer(String organizer) { this.organizer = organizer; }
+    public String getFormat() {
+        return format;
+    }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public void setFormat(String format) {
+        this.format = format;
+    }
 
-    public Integer getCapacity() { return capacity; }
-    public void setCapacity(Integer capacity) { this.capacity = capacity; }
+    public HackathonStatus getStatus() {
+        return status;
+    }
 
-    public Integer getRegisteredCount() { return registeredCount; }
-    public void setRegisteredCount(Integer registeredCount) { this.registeredCount = registeredCount; }
+    public void setStatus(HackathonStatus status) {
+        this.status = status;
+    }
 
-    public String getPrizePool() { return prizePool; }
-    public void setPrizePool(String prizePool) { this.prizePool = prizePool; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getDifficulty() { return difficulty; }
-    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public String getTrack() { return track; }
-    public void setTrack(String track) { this.track = track; }
+    public String getRules() {
+        return rules;
+    }
 
-    public boolean isArchived() { return archived; }
-    public void setArchived(boolean archived) { this.archived = archived; }
+    public void setRules(String rules) {
+        this.rules = rules;
+    }
 
-    public LocalDateTime getStartDate() { return startDate; }
-    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
+    public String getPrizes() {
+        return prizes;
+    }
 
-    public LocalDateTime getEndDate() { return endDate; }
-    public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
+    public void setPrizes(String prizes) {
+        this.prizes = prizes;
+    }
 
-    public LocalDateTime getSubmissionDeadline() { return submissionDeadline; }
-    public void setSubmissionDeadline(LocalDateTime submissionDeadline) { this.submissionDeadline = submissionDeadline; }
+    public String getOrganizer() {
+        return organizer;
+    }
 
-    public Boolean getIsPublished() { return isPublished; }
-    public void setIsPublished(Boolean isPublished) { this.isPublished = isPublished; }
+    public void setOrganizer(String organizer) {
+        this.organizer = organizer;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public Integer getRegisteredCount() {
+        return registeredCount;
+    }
+
+    public void setRegisteredCount(Integer registeredCount) {
+        this.registeredCount = registeredCount;
+    }
+
+    public String getPrizePool() {
+        return prizePool;
+    }
+
+    public void setPrizePool(String prizePool) {
+        this.prizePool = prizePool;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public String getTrack() {
+        return track;
+    }
+
+    public void setTrack(String track) {
+        this.track = track;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDateTime getSubmissionDeadline() {
+        return submissionDeadline;
+    }
+
+    public void setSubmissionDeadline(LocalDateTime submissionDeadline) {
+        this.submissionDeadline = submissionDeadline;
+    }
+
+    public Boolean getIsPublished() {
+        return isPublished;
+    }
+
+    public void setIsPublished(Boolean isPublished) {
+        this.isPublished = isPublished;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

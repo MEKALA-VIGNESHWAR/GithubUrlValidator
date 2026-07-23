@@ -1,40 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* 80% - Backgrounds & Surface Command Tokens */
-  --bg-primary: #030611;
-  --bg-secondary: #080d1e;
-  --card-bg: rgba(15, 23, 42, 0.85);
-  --card-border: rgba(255, 255, 255, 0.09);
-  --card-border-glow: rgba(37, 99, 235, 0.35);
-  --inner-bg: rgba(11, 17, 32, 0.85);
-  --input-bg: rgba(30, 41, 59, 0.7);
-  --input-border: rgba(255, 255, 255, 0.14);
+  /* Carbon & Solar Orange (Sleek Cockpit) Palette */
+  --color-darkest: #0D1117;
+  --color-slate: #161B22;
+  --color-solar-orange: #FF6B00;
+  --color-sky-blue: #38BDF8;
+  --color-neon-pink: #FF3366;
+  --color-text-main: #F0F6FC;
+  --color-text-sub: #8B949E;
 
-  /* 15% - Primary Tech & Control Room Blue */
-  --primary: #2563eb;
-  --primary-glow: rgba(37, 99, 235, 0.35);
-  --secondary: #6b8ba4;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+  /* 80% - Backgrounds & Surface Tokens */
+  --bg-primary: #0D1117;
+  --bg-secondary: #161B22;
+  --card-bg: rgba(22, 27, 34, 0.85);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-border-glow: rgba(255, 107, 0, 0.5);
+  --inner-bg: rgba(13, 17, 23, 0.8);
+  --input-bg: rgba(13, 17, 23, 0.9);
+  --input-border: rgba(255, 255, 255, 0.15);
+
+  /* Primary Tech & Sky Blue Tokens */
+  --primary: #38BDF8;
+  --primary-glow: rgba(56, 189, 248, 0.4);
+  --secondary: #8B949E;
+  --text-primary: #F0F6FC;
+  --text-secondary: #8B949E;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* 5% - Urgency, Achievement & Live Action Orange */
-  --accent: #f97316;
-  --accent-glow: rgba(249, 115, 22, 0.4);
+  /* Solar Orange Action Tokens */
+  --accent: #FF6B00;
+  --accent-hover: #FF8533;
+  --accent-glow: rgba(255, 107, 0, 0.5);
 }
 
 body[data-theme='light'] {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --card-bg: rgba(255, 255, 255, 0.9);
-  --card-border: rgba(0, 0, 0, 0.08);
-  --card-border-glow: rgba(37, 99, 235, 0.2);
-  --inner-bg: #f8fafc;
+  --bg-primary: #f6f8fa;
+  --bg-secondary: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(27, 31, 36, 0.15);
+  --card-border-glow: rgba(255, 107, 0, 0.3);
+  --inner-bg: #f6f8fa;
   --input-bg: #ffffff;
-  --input-border: rgba(0, 0, 0, 0.15);
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
+  --input-border: rgba(27, 31, 36, 0.2);
+  --text-primary: #1F2328;
+  --text-secondary: #656D76;
 }
 
 *, *::before, *::after {
@@ -54,15 +64,15 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 45%),
-    radial-gradient(at 100% 100%, rgba(249, 115, 22, 0.08) 0px, transparent 45%),
-    radial-gradient(at 50% 50%, rgba(11, 17, 30, 0.5) 0px, transparent 100%);
+    radial-gradient(at 0% 0%, rgba(255, 107, 0, 0.2) 0px, transparent 45%),
+    radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.18) 0px, transparent 45%),
+    radial-gradient(at 50% 50%, rgba(13, 17, 23, 0.95) 0px, transparent 100%);
   background-attachment: fixed;
   transition: background-color 0.3s ease, color 0.3s ease;
   z-index: 0;
 }
 
-/* Custom Cockpit Scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -71,11 +81,11 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.25);
+  background: rgba(139, 148, 158, 0.3);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.45);
+  background: rgba(255, 107, 0, 0.6);
 }
 
 /* --- FIXED HEADER (80px) & Z-INDEX LAYERING --- */
@@ -86,11 +96,11 @@ body {
   right: 0;
   height: 80px;
   z-index: 100;
-  background: var(--card-bg);
+  background: rgba(22, 27, 34, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--card-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .fixed-header-inner {
@@ -116,7 +126,7 @@ body {
   }
 }
 
-/* --- MAIN CONTAINER & HERO TOP SPACING (No Overlap) --- */
+/* --- MAIN CONTAINER & HERO TOP SPACING --- */
 .app-container {
   max-width: 1440px;
   margin: 0 auto;
@@ -136,22 +146,22 @@ body {
 
 /* --- VERTICAL SPACING RULES --- */
 .hero-section {
-  margin-bottom: 80px; /* Hero -> Modules: 80px */
+  margin-bottom: 80px;
 }
 
 .section-spacing {
-  margin-bottom: 64px; /* Modules -> Design System: 64px */
+  margin-bottom: 64px;
 }
 
 .section-title {
-  margin-bottom: 32px; /* Section Titles -> Cards: 32px */
+  margin-bottom: 32px;
 }
 
-/* --- MODULES GRID (Desktop: 3 cols, Tablet: 2 cols, Mobile: 1 col) --- */
+/* --- MODULES GRID --- */
 .modules-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px; /* Cards Gap: 32px */
+  gap: 32px;
   align-items: stretch;
 }
 
@@ -176,52 +186,29 @@ body {
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--card-border);
   border-radius: 16px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .glass-panel:hover {
   border-color: var(--card-border-glow);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 24px var(--primary-glow);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 24px var(--accent-glow);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 50%, #93c5fd 100%);
+  background: linear-gradient(135deg, #FF8533 0%, #FF6B00 50%, #38BDF8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-accent-text {
-  background: linear-gradient(135deg, #fdba74 0%, #f97316 100%);
+  background: linear-gradient(135deg, #FF6B00 0%, #FF3366 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* Button Design System */
 .btn-primary {
-  background: var(--primary);
-  color: #ffffff;
-  font-weight: 600;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 16px var(--primary-glow);
-}
-
-.btn-primary:hover {
-  background: #1d4ed8;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--primary-glow);
-}
-
-.btn-accent {
   background: var(--accent);
   color: #ffffff;
   font-weight: 700;
@@ -235,13 +222,36 @@ body {
   justify-content: center;
   gap: 8px;
   font-size: 0.9rem;
-  box-shadow: 0 4px 20px var(--accent-glow);
+  box-shadow: 0 4px 16px var(--accent-glow);
 }
 
-.btn-accent:hover {
-  background: #ea580c;
+.btn-primary:hover {
+  background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px var(--accent-glow);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.btn-cyan, .btn-accent {
+  background: var(--primary);
+  color: #0D1117;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 20px var(--primary-glow);
+}
+
+.btn-cyan:hover, .btn-accent:hover {
+  background: #7dd3fc;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px var(--primary-glow);
 }
 
 .btn-secondary {
@@ -261,8 +271,9 @@ body {
 }
 
 .btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(30, 41, 59, 0.9);
+  border-color: var(--accent);
+  background: rgba(22, 27, 34, 0.9);
+  color: var(--text-primary);
 }
 
 /* Status Pills */
@@ -279,21 +290,21 @@ body {
 }
 
 .status-pending {
-  background: rgba(249, 115, 22, 0.15);
-  color: #fdba74;
-  border: 1px solid rgba(249, 115, 22, 0.3);
+  background: rgba(255, 107, 0, 0.15);
+  color: #FF8533;
+  border: 1px solid rgba(255, 107, 0, 0.35);
 }
 
 .status-approved {
-  background: rgba(34, 197, 94, 0.15);
-  color: #86efac;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.35);
 }
 
 .status-rejected {
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(255, 51, 102, 0.15);
+  color: #ff7597;
+  border: 1px solid rgba(255, 51, 102, 0.35);
 }
 
 /* Inputs */
@@ -310,41 +321,41 @@ body {
 }
 
 .input-field:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 14px var(--primary-glow);
+  border-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-glow);
 }
 
-/* --- MISSION CONTROL DASHBOARD EXTRA STYLES --- */
-.glow-card-blue {
-  border: 1px solid rgba(37, 99, 235, 0.35);
-  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
+/* Dashboard Glow Cards */
+.glow-card-blue, .glow-card-cyan {
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 8px 32px rgba(56, 189, 248, 0.15);
 }
-.glow-card-blue:hover {
-  border-color: rgba(37, 99, 235, 0.6);
-  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.3);
+.glow-card-blue:hover, .glow-card-cyan:hover {
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 12px 40px rgba(56, 189, 248, 0.3);
 }
 
-.glow-card-orange {
-  border: 1px solid rgba(249, 115, 22, 0.35);
-  box-shadow: 0 8px 32px rgba(249, 115, 22, 0.15);
+.glow-card-orange, .glow-card-rust {
+  border: 1px solid rgba(255, 107, 0, 0.35);
+  box-shadow: 0 8px 32px rgba(255, 107, 0, 0.15);
 }
-.glow-card-orange:hover {
-  border-color: rgba(249, 115, 22, 0.6);
-  box-shadow: 0 12px 40px rgba(249, 115, 22, 0.3);
+.glow-card-orange:hover, .glow-card-rust:hover {
+  border-color: rgba(255, 107, 0, 0.7);
+  box-shadow: 0 12px 40px rgba(255, 107, 0, 0.3);
 }
 
 .live-pulse-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #10b981;
-  box-shadow: 0 0 12px #10b981;
+  background-color: #FF6B00;
+  box-shadow: 0 0 12px #FF6B00;
   animation: pulse-dot-anim 1.6s infinite;
 }
 
 @keyframes pulse-dot-anim {
   0% { transform: scale(0.95); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.5; }
+  50% { transform: scale(1.25); opacity: 0.6; }
   100% { transform: scale(0.95); opacity: 1; }
 }
 
@@ -361,9 +372,8 @@ body {
 }
 
 .role-pill.active {
-  background: var(--primary);
+  background: var(--accent);
   color: #ffffff;
-  border-color: var(--primary);
-  box-shadow: 0 4px 14px var(--primary-glow);
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px var(--accent-glow);
 }
-

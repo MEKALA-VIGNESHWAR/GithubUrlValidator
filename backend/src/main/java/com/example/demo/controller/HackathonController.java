@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/api/hackathons", "/api/v1/hackathons"})
+@RequestMapping({ "/api/hackathons", "/api/v1/hackathons" })
+@CrossOrigin(origins = "http://localhost:5173")
 public class HackathonController {
 
     private final HackathonRepository hackathonRepository;
@@ -29,8 +30,7 @@ public class HackathonController {
     @GetMapping("/page")
     public ResponseEntity<Page<Hackathon>> getHackathonsPaged(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(hackathonRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending())));
     }
 
@@ -84,13 +84,20 @@ public class HackathonController {
             return ResponseEntity.notFound().build();
         }
 
-        if (updated.getTitle() != null) existing.setTitle(updated.getTitle());
-        if (updated.getEventType() != null) existing.setEventType(updated.getEventType());
-        if (updated.getDescription() != null) existing.setDescription(updated.getDescription());
-        if (updated.getRules() != null) existing.setRules(updated.getRules());
-        if (updated.getPrizes() != null) existing.setPrizes(updated.getPrizes());
-        if (updated.getSubmissionDeadline() != null) existing.setSubmissionDeadline(updated.getSubmissionDeadline());
-        if (updated.getIsPublished() != null) existing.setIsPublished(updated.getIsPublished());
+        if (updated.getTitle() != null)
+            existing.setTitle(updated.getTitle());
+        if (updated.getEventType() != null)
+            existing.setEventType(updated.getEventType());
+        if (updated.getDescription() != null)
+            existing.setDescription(updated.getDescription());
+        if (updated.getRules() != null)
+            existing.setRules(updated.getRules());
+        if (updated.getPrizes() != null)
+            existing.setPrizes(updated.getPrizes());
+        if (updated.getSubmissionDeadline() != null)
+            existing.setSubmissionDeadline(updated.getSubmissionDeadline());
+        if (updated.getIsPublished() != null)
+            existing.setIsPublished(updated.getIsPublished());
 
         Hackathon saved = hackathonRepository.save(existing);
         return ResponseEntity.ok(saved);

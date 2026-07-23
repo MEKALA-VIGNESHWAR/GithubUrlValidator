@@ -32,10 +32,10 @@ export default function Header({ activeTab, setActiveTab, onOpenAuth, currentUse
             justifyContent: 'center',
             width: '40px',
             height: '40px',
-            background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+            background: 'linear-gradient(135deg, #FF6B00, #FF3366)',
             borderRadius: '12px',
             fontSize: '1.3rem',
-            boxShadow: '0 4px 12px rgba(37, 99, 235, 0.35)'
+            boxShadow: '0 4px 12px rgba(255, 107, 0, 0.4)'
           }}>
             ⚡
           </div>
@@ -44,7 +44,7 @@ export default function Header({ activeTab, setActiveTab, onOpenAuth, currentUse
               <h1 style={{ fontSize: '1.3rem', fontWeight: '800', margin: 0 }} className="gradient-text">
                 HackForge
               </h1>
-              <span className="category-pill" style={{ background: 'rgba(37, 99, 235, 0.15)', color: '#60a5fa', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '12px' }}>
+              <span className="category-pill" style={{ background: 'rgba(255, 107, 0, 0.15)', color: '#FF8533', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '12px' }}>
                 Enterprise OS
               </span>
             </div>
@@ -76,7 +76,7 @@ export default function Header({ activeTab, setActiveTab, onOpenAuth, currentUse
             >
               🔔
               {unreadCount > 0 && (
-                <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#f97316', color: '#fff', borderRadius: '50%', padding: '2px 6px', fontSize: '0.65rem', fontWeight: 'bold' }}>
+                <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#FF6B00', color: '#fff', borderRadius: '50%', padding: '2px 6px', fontSize: '0.65rem', fontWeight: 'bold' }}>
                   {unreadCount}
                 </span>
               )}

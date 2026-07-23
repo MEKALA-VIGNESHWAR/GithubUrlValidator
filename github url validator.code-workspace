@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "github url validator",
+			"path": "."
+		},
+		{
+			"name": "frontend",
+			"path": "../../../../../Downloads/frontend"
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}

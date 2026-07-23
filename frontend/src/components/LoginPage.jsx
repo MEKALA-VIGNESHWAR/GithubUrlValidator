@@ -59,7 +59,7 @@ export default function LoginPage({ onLoginSuccess }) {
       justifyContent: 'center',
       padding: '24px',
       backgroundColor: 'var(--bg-primary)',
-      backgroundImage: 'radial-gradient(at 10% 10%, rgba(37, 99, 235, 0.12) 0px, transparent 50%), radial-gradient(at 90% 90%, rgba(107, 139, 164, 0.08) 0px, transparent 50%)'
+      backgroundImage: 'radial-gradient(at 10% 10%, rgba(255, 107, 0, 0.2) 0px, transparent 50%), radial-gradient(at 90% 90%, rgba(56, 189, 248, 0.18) 0px, transparent 50%)'
     }}>
       <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '440px', padding: '36px', borderRadius: '20px' }}>
         
@@ -71,11 +71,11 @@ export default function LoginPage({ onLoginSuccess }) {
             justifyContent: 'center',
             width: '56px',
             height: '56px',
-            background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+            background: 'linear-gradient(135deg, #FF6B00, #FF3366)',
             borderRadius: '16px',
             fontSize: '1.8rem',
             marginBottom: '12px',
-            boxShadow: '0 8px 24px rgba(37, 99, 235, 0.35)'
+            boxShadow: '0 8px 24px rgba(255, 107, 0, 0.4)'
           }}>
             ⚡
           </div>

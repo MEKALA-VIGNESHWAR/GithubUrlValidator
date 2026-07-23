@@ -75,17 +75,29 @@
 - Node.js 20+ & npm
 - Docker Engine & Docker Compose
 
-### 1. Launch Local Infrastructure (PostgreSQL, Redis, RabbitMQ)
-```bash
-# Clone the repository
-git clone https://github.com/MEKALA-VIGNESHWAR/GithubUrlValidator.git
-cd "github url validator"
+---
 
+### 🚀 Option A: One-Click Fullstack Launcher (Recommended)
+
+Run the automated dev launcher script in PowerShell. It starts the **Spring Boot Backend on port 8080 first**, waits for initialization, and then launches the **Vite React Frontend on port 5173** automatically:
+
+```powershell
+.\start-dev.ps1
+```
+
+> **Note on Startup Order:** Starting the backend first is best practice so API endpoints, Spring Security CORS handlers, and database connections are ready when the frontend UI loads.
+
+---
+
+### 🛠️ Option B: Manual Step-by-Step Setup
+
+#### 1. Launch Local Infrastructure (PostgreSQL, Redis, RabbitMQ)
+```bash
 # Start database and message broker containers
 docker-compose up -d
 ```
 
-### 2. Run Backend (Spring Boot)
+#### 2. Run Backend (Spring Boot — Port 8080)
 ```bash
 cd backend
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
@@ -94,13 +106,15 @@ cd backend
 - **Swagger Documentation**: `http://localhost:8080/swagger-ui.html`
 - **Actuator Health Probes**: `http://localhost:8080/actuator/health`
 
-### 3. Run Frontend (React Vite)
+#### 3. Run Frontend (React Vite — Port 5173)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-- Open `http://localhost:5173` in your browser.
+- **Web App**: Open `http://localhost:5173` in your browser.
+- **Vite Proxy**: Configured in `vite.config.js` to proxy `/api` requests to `http://localhost:8080`.
+- **CORS Handling**: Configured in Spring `SecurityConfig.java` to permit origins from `http://localhost:5173`.
 
 ---
 
