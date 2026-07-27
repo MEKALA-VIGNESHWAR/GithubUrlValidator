@@ -48,7 +48,7 @@ export default function LoginPage({ onLoginSuccess }) {
   const handleGoogleRedirect = () => {
     setLoading(true);
     // Direct full-page browser redirect to Spring Security OAuth2 Authorization Endpoint
-    window.location.href = 'http://localhost:3000/oauth2/authorization/google';
+    window.location.href = '/oauth2/authorization/google';
   };
 
   return (

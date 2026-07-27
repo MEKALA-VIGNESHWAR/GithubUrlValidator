@@ -7,6 +7,7 @@ import com.example.demo.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Value("${app.frontend.url:http://localhost:5173}")
+    private String frontendUrl;
+
     public OAuth2SuccessHandler(JwtUtils jwtUtils, UserRepository userRepository) {
         this.jwtUtils = jwtUtils;
         this.userRepository = userRepository;
@@ -40,8 +44,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String sub = oAuth2User.getAttribute("sub");
         String picture = oAuth2User.getAttribute("picture");
 
+        String redirectBase = (frontendUrl != null && !frontendUrl.isBlank()) ? frontendUrl : "http://localhost:5173";
+
         if (email == null) {
-            response.sendRedirect("http://localhost:5173/?error=Email_Not_Found_From_Google");
+            response.sendRedirect(redirectBase + "/?error=Email_Not_Found_From_Google");
             return;
         }
 
@@ -58,7 +64,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtUtils.generateToken(user.getUsername(), user.getRole().name());
         String refreshToken = "ref-" + accessToken;
 
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/")
+        String targetUrl = UriComponentsBuilder.fromUriString(redirectBase + "/")
                 .queryParam("accessToken", accessToken)
                 .queryParam("refreshToken", refreshToken)
                 .queryParam("username", user.getUsername())
