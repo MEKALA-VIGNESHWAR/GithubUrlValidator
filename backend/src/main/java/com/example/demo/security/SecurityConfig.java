@@ -89,7 +89,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints & Static assets
                         .requestMatchers("/", "/error", "/index.html", "/static/**", "/assets/**", "/favicon.ico", "/uploads/**").permitAll()
-                        .requestMatchers("/api/auth/**", "/api/v1/auth/**", "/api/v1/support/**", "/api/v1/flags/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/v1/auth/**", "/api/v1/support/**", "/api/v1/flags/**", "/api/profile/**", "/api/v1/profile/**", "/api/me/**", "/api/v1/me/**").permitAll()
                         .requestMatchers("/actuator/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/ws/**", "/oauth2/**", "/login/oauth2/code/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/submissions/**", "/api/v1/submissions/**", "/api/hackathons/**", "/api/v1/hackathons/**", "/api/analytics/**", "/api/v1/analytics/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/submissions", "/api/v1/submissions").permitAll()

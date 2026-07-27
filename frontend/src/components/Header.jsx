@@ -165,6 +165,29 @@ export default function Header({ activeTab, setActiveTab, onOpenAuth, currentUse
                     🎭 {currentUser.role || 'PARTICIPANT'}
                   </div>
 
+                  <button
+                    className="nav-tab"
+                    style={{
+                      color: 'var(--text-primary)',
+                      justifyContent: 'flex-start',
+                      border: '1px solid var(--card-border)',
+                      background: 'rgba(255, 107, 0, 0.12)',
+                      width: '100%',
+                      textAlign: 'left',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '0.85rem',
+                      fontWeight: '600'
+                    }}
+                    onClick={() => {
+                      setActiveTab('profile');
+                      setShowProfileMenu(false);
+                    }}
+                  >
+                    👤 My Profile & Settings
+                  </button>
+
                   <button className="nav-tab" style={{ color: '#ef4444', justifyContent: 'flex-start', border: 'none', background: 'transparent', width: '100%', textAlign: 'left', padding: '8px', cursor: 'pointer' }} onClick={() => { onLogout(); setShowProfileMenu(false); }}>
                     🚪 Logout
                   </button>

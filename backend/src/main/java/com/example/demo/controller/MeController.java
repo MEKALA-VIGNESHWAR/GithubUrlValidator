@@ -136,8 +136,13 @@ public class MeController {
         res.put("role", user.getRole().name());
         res.put("university", user.getUniversity());
         res.put("skills", user.getSkills());
+        res.put("bio", user.getBio());
+        res.put("profilePicture", user.getProfilePicture());
         res.put("githubUrl", user.getGithubUrl());
         res.put("linkedinUrl", user.getLinkedinUrl());
+        res.put("resumeUrl", user.getResumeUrl());
+        res.put("portfolioUrl", user.getPortfolioUrl());
+        res.put("country", user.getCountry());
 
         return ResponseEntity.ok(res);
     }

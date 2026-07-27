@@ -14,6 +14,7 @@ import AnalyticsHub from './components/AnalyticsHub';
 import EventsDiscovery from './components/EventsDiscovery';
 import ArchiveHub from './components/ArchiveHub';
 import ProjectsCockpit from './components/ProjectsCockpit';
+import UserProfile from './components/UserProfile';
 
 export default function App() {
   const [submissions, setSubmissions] = useState([]);
@@ -213,6 +214,7 @@ export default function App() {
   const menuItems = [
     { id: 'dashboard', label: 'Mission Control', icon: '⚡', desc: 'Futuristic Event Operations Center' },
     { id: 'projects', label: 'My Projects', icon: '🚀', desc: 'Builder Workspace & Command Center' },
+    { id: 'profile', label: 'My Profile', icon: '👤', desc: 'Developer Profile & Tech Stack' },
     { id: 'events', label: 'Events', icon: '📅', desc: 'Hackathons & Registrations' },
     { id: 'archive', label: 'Archive', icon: '📦', desc: 'Hall of Fame & Winners' },
     { id: 'analytics', label: 'Analytics', icon: '📊', desc: 'System Metrics & Charts' },
@@ -307,6 +309,14 @@ export default function App() {
             )}
 
             {activeTab === 'projects' && <ProjectsCockpit submissions={submissions} />}
+
+            {activeTab === 'profile' && (
+              <UserProfile
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                showToast={showToast}
+              />
+            )}
 
             {activeTab === 'events' && <EventsDiscovery />}
 
