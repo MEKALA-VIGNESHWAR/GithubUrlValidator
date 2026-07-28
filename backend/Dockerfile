@@ -8,8 +8,8 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine AS runner
 WORKDIR /app
-RUN addgroup -S spring && adduser -S spring -G spring
+RUN addgroup -S spring && adduser -S spring -G spring && mkdir -p /app/uploads && chown -R spring:spring /app
 USER spring:spring
-COPY --from=builder /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY --chown=spring:spring --from=builder /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]

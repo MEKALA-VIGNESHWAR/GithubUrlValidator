@@ -35,14 +35,21 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Value("${app.s3.endpoint:}")
     private String s3Endpoint;
 
-    private final Path fileStorageLocation;
+    private Path fileStorageLocation;
 
     public FileStorageServiceImpl() {
-        this.fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
+        Path location = Paths.get("uploads").toAbsolutePath().normalize();
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(location);
+            this.fileStorageLocation = location;
         } catch (Exception ex) {
-            throw new RuntimeException("Could not create the directory where uploaded files will be stored.", ex);
+            try {
+                location = Paths.get(System.getProperty("java.io.tmpdir"), "uploads").toAbsolutePath().normalize();
+                Files.createDirectories(location);
+                this.fileStorageLocation = location;
+            } catch (Exception fallbackEx) {
+                throw new RuntimeException("Could not create the directory where uploaded files will be stored.", ex);
+            }
         }
     }
 
