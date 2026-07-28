@@ -1,6 +1,7 @@
 # ⚡ HackForge — Enterprise Hackathon Operating System & SaaS Platform
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/MEKALA-VIGNESHWAR/GithubUrlValidator)
+[![Live API](https://img.shields.io/badge/Render-Live%20API-informational.svg?logo=render)](https://hackforge-nlb2.onrender.com)
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.3-green.svg)](https://spring.io/projects/spring-boot)
 [![React](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
@@ -8,6 +9,8 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Production-326CE5.svg)](https://kubernetes.io/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+🌐 **Live Production URL**: [https://hackforge-nlb2.onrender.com](https://hackforge-nlb2.onrender.com)
 
 **HackForge** is an enterprise-grade, full-stack hackathon management SaaS platform built for high availability, zero-trust security, real-time analytics, and seamless event execution. Designed for administrators, participants, judges, mentors, and sponsors, HackForge powers end-to-end hackathon lifecycles—from event creation and team registration to project submission, S3 file uploads, live scoring, real-time leaderboards, automated certificate issuance, and comprehensive observability.
 
