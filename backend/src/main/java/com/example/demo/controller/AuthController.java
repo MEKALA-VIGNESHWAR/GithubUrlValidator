@@ -86,7 +86,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody Map<String, Object> request) {
-        String username = request.get("username") != null ? request.get("username").toString() : "";
+        String username = request.get("username") != null ? request.get("username").toString() :
+                         (request.get("usernameOrEmail") != null ? request.get("usernameOrEmail").toString() : "");
         String password = request.get("password") != null ? request.get("password").toString() : "";
 
         User user = userRepository.findByUsernameOrEmail(username, username)

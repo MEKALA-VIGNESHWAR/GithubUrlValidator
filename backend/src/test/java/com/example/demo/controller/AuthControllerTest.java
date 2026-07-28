@@ -43,6 +43,12 @@ class AuthControllerTest {
     @Test
     void login_ReturnsOkStatus() throws Exception {
         long ts = System.currentTimeMillis() + 100;
+        RegisterRequestDTO regRequest = new RegisterRequestDTO("loginuser_" + ts, "loginuser_" + ts + "@example.com", "password123", Role.PARTICIPANT);
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(regRequest)))
+                .andExpect(status().isOk());
+
         LoginRequestDTO request = new LoginRequestDTO("loginuser_" + ts, "password123");
 
         mockMvc.perform(post("/api/auth/login")
