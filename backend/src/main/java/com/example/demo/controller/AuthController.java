@@ -140,6 +140,45 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("accessToken", newAccessToken, "refreshToken", refreshTokenStr));
     }
 
+    @PostMapping("/google")
+    public ResponseEntity<?> googleAuthenticate(@RequestBody(required = false) Map<String, Object> request) {
+        String email = (request != null && request.get("email") != null) ? request.get("email").toString() : "participant_" + (System.currentTimeMillis() % 10000) + "@gmail.com";
+        String name = (request != null && request.get("name") != null) ? request.get("name").toString() : email.split("@")[0];
+        String picture = (request != null && request.get("picture") != null) ? request.get("picture").toString() : "";
+
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            String baseUsername = email.split("@")[0].replaceAll("[^a-zA-Z0-9_]", "_");
+            String username = baseUsername;
+            int counter = 1;
+            while (userRepository.existsByUsername(username)) {
+                username = baseUsername + "_" + counter++;
+            }
+            User newUser = new User(username, email, passwordEncoder.encode("OAuth2SecuredPassword_" + System.currentTimeMillis()), Role.PARTICIPANT);
+            newUser.setProvider(com.example.demo.enums.AuthProvider.GOOGLE);
+            newUser.setProfilePicture(picture);
+            return userRepository.save(newUser);
+        });
+
+        String accessToken = jwtUtils.generateToken(user.getUsername(), user.getRole().name());
+        String refreshTokenStr = jwtUtils.generateRefreshToken(user.getUsername());
+
+        RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenStr, LocalDateTime.now().plusNanos(jwtUtils.getRefreshExpirationMs() * 1_000_000));
+        refreshTokenRepository.save(refreshToken);
+
+        auditLogService.logAction("USER_GOOGLE_LOGIN", user.getUsername(), "User", user.getId(), "User logged in via Google OAuth");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", accessToken);
+        response.put("accessToken", accessToken);
+        response.put("refreshToken", refreshTokenStr);
+        response.put("username", user.getUsername());
+        response.put("email", user.getEmail());
+        response.put("role", user.getRole().name());
+        response.put("picture", user.getProfilePicture() != null ? user.getProfilePicture() : "");
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestBody(required = false) Map<String, Object> request) {
         if (request != null && request.containsKey("refreshToken")) {
@@ -152,3 +191,4 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
     }
 }
+

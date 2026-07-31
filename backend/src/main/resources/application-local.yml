@@ -6,7 +6,7 @@ spring:
     url: ${SPRING_DATASOURCE_URL:${DB_URL:jdbc:h2:mem:hackforge_local;DB_CLOSE_DELAY=-1;MODE=PostgreSQL}}
     username: ${SPRING_DATASOURCE_USERNAME:${DB_USERNAME:sa}}
     password: ${SUPABASE_DB_PASSWORD:${DB_PASSWORD:}}
-    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2

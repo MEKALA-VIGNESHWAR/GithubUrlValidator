@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiClient } from '../api/apiClient';
+import CallTheApi from './CallTheApi';
 
 export default function EventsDiscovery() {
   const [hackathons, setHackathons] = useState([]);
@@ -7,6 +8,7 @@ export default function EventsDiscovery() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMode, setSelectedMode] = useState('ALL');
   const [registeredEventIds, setRegisteredEventIds] = useState([]);
+  const [showScraper, setShowScraper] = useState(false);
 
   useEffect(() => {
     fetchHackathons();
@@ -21,6 +23,10 @@ export default function EventsDiscovery() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEventsImported = (newEvents) => {
+    fetchHackathons();
   };
 
   const toggleRegister = (id) => {
@@ -55,18 +61,40 @@ export default function EventsDiscovery() {
               Explore Events
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-              Discover active hackathons running on the HackForge SaaS platform.
+              Discover active hackathons running on the HackForge SaaS platform or scrape & add new web events.
             </p>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--inner-bg)', padding: '10px 18px', borderRadius: '14px', border: '1px solid var(--card-border)' }}>
-            <div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>ACTIVE EVENTS</div>
-              <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#10b981' }}>{hackathons.length} Events</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setShowScraper(!showScraper)}
+              className="btn-primary"
+              style={{
+                padding: '10px 18px',
+                fontSize: '0.88rem',
+                background: showScraper ? 'rgba(255, 255, 255, 0.1)' : 'linear-gradient(135deg, #FF6B00, #E65C00)',
+                border: '1px solid rgba(255, 107, 0, 0.4)'
+              }}
+            >
+              {showScraper ? '❌ Close Web Scraper Form' : '⚡ Open Web Scraper & Event Collector'}
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--inner-bg)', padding: '10px 18px', borderRadius: '14px', border: '1px solid var(--card-border)' }}>
+              <div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>ACTIVE EVENTS</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#10b981' }}>{hackathons.length} Events</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* --- WEB SCRAPING EVENT FORM PANEL --- */}
+      {showScraper && (
+        <div style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
+          <CallTheApi onEventsImported={handleEventsImported} />
+        </div>
+      )}
 
       {/* --- SEARCH & FILTERS --- */}
       <div className="glass-panel" style={{ padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
@@ -96,9 +124,18 @@ export default function EventsDiscovery() {
         <div className="glass-panel" style={{ padding: '48px', textAlign: 'center', background: 'var(--inner-bg)', border: '1px solid var(--card-border)' }}>
           <span style={{ fontSize: '2.5rem' }}>📅</span>
           <h3 style={{ fontSize: '1.3rem', fontWeight: '700', marginTop: '12px', color: 'var(--text-primary)' }}>No Events Found</h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '6px' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '6px', marginBottom: '16px' }}>
             No active hackathons currently match your query filter.
           </p>
+          {!showScraper && (
+            <button
+              onClick={() => setShowScraper(true)}
+              className="btn-primary"
+              style={{ padding: '10px 20px', fontSize: '0.88rem' }}
+            >
+              ⚡ Scrape Events from Web Now
+            </button>
+          )}
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
@@ -111,12 +148,22 @@ export default function EventsDiscovery() {
                     <span className="status-badge status-approved" style={{ fontSize: '0.65rem' }}>
                       {event.eventType || event.status || 'ONLINE'}
                     </span>
+                    {event.organizer && (
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
+                        🏢 {event.organizer}
+                      </span>
+                    )}
                   </div>
 
                   <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '4px' }}>{event.title || event.name}</h3>
                   <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
                     {event.description || 'Global Hackathon Competition'}
                   </p>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '0.75rem', color: '#60a5fa' }}>
+                    {event.prizePool && <span>🏆 Prize: {event.prizePool}</span>}
+                    {event.location && <span>• 📍 {event.location}</span>}
+                  </div>
                 </div>
 
                 <div style={{ paddingTop: '16px', borderTop: '1px solid var(--card-border)' }}>

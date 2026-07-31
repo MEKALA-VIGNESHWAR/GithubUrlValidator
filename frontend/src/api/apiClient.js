@@ -55,4 +55,7 @@ export const apiClient = {
   put: (url, body, headers) => request(url, { method: 'PUT', body: JSON.stringify(body), headers }),
   patch: (url, body, headers) => request(url, { method: 'PATCH', body: JSON.stringify(body), headers }),
   delete: (url, headers) => request(url, { method: 'DELETE', headers }),
+  scrapeEvents: (params) => request('/hackathons/scrape', { method: 'POST', body: JSON.stringify(params) }),
+  importEvents: (events) => request('/hackathons/import', { method: 'POST', body: JSON.stringify(events) }),
 };
+

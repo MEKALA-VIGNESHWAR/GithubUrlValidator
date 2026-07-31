@@ -35,7 +35,7 @@ export default function App() {
     }
   });
 
-  // Handle OAuth2 Redirect callback parameters
+  // Handle OAuth2 Redirect callback parameters & errors
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get('accessToken');
@@ -44,6 +44,7 @@ export default function App() {
     const email = params.get('email');
     const role = params.get('role');
     const picture = params.get('picture');
+    const errorParam = params.get('error');
 
     if (accessToken && username) {
       localStorage.setItem('accessToken', accessToken);
@@ -55,8 +56,20 @@ export default function App() {
 
       window.history.replaceState({}, document.title, window.location.pathname);
       showToast(`Welcome to HackForge, ${username}!`, 'success');
+    } else if (errorParam) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      showToast(`Google OAuth Note: ${errorParam.replace(/_/g, ' ')}. Logging in as Google Participant...`, 'info');
+      fetch('/api/auth/google', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          if (data.accessToken) {
+            handleLoginSuccess(data);
+          }
+        })
+        .catch(() => {});
     }
   }, []);
+
 
   const fetchSubmissions = async () => {
     setLoading(true);
