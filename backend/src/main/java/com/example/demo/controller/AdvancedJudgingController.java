@@ -6,6 +6,8 @@ import com.example.demo.entity.QrCheckin;
 import com.example.demo.repository.CertificateRepository;
 import com.example.demo.repository.JudgeEvaluationRepository;
 import com.example.demo.repository.QrCheckinRepository;
+import com.example.demo.service.JudgeAssignmentService;
+import com.example.demo.service.ScoreCalibrationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +22,31 @@ public class AdvancedJudgingController {
     private final JudgeEvaluationRepository judgeEvaluationRepository;
     private final QrCheckinRepository qrCheckinRepository;
     private final CertificateRepository certificateRepository;
+    private final JudgeAssignmentService judgeAssignmentService;
+    private final ScoreCalibrationService scoreCalibrationService;
 
     public AdvancedJudgingController(JudgeEvaluationRepository judgeEvaluationRepository,
-                                     QrCheckinRepository qrCheckinRepository,
-                                     CertificateRepository certificateRepository) {
+                                      QrCheckinRepository qrCheckinRepository,
+                                      CertificateRepository certificateRepository,
+                                      JudgeAssignmentService judgeAssignmentService,
+                                      ScoreCalibrationService scoreCalibrationService) {
         this.judgeEvaluationRepository = judgeEvaluationRepository;
         this.qrCheckinRepository = qrCheckinRepository;
         this.certificateRepository = certificateRepository;
+        this.judgeAssignmentService = judgeAssignmentService;
+        this.scoreCalibrationService = scoreCalibrationService;
+    }
+
+    @PostMapping("/judging/assign-submissions")
+    public ResponseEntity<?> assignSubmissions() {
+        Map<String, Object> result = judgeAssignmentService.autoAssignSubmissionsToJudges();
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/judging/calibrate-scores/{hackathonId}")
+    public ResponseEntity<?> calibrateScores(@PathVariable Long hackathonId) {
+        Map<String, Object> result = scoreCalibrationService.calibrateScores(hackathonId);
+        return ResponseEntity.ok(result);
     }
 
     // --- Judging Endpoints ---
@@ -36,7 +56,6 @@ public class AdvancedJudgingController {
             return ResponseEntity.badRequest().body(Map.of("message", "Submission ID and Judge ID are required"));
         }
 
-        // Anomaly flag check (e.g. score > 95 or score < 20)
         if (evaluation.getScore() != null && (evaluation.getScore() > 95.0 || evaluation.getScore() < 20.0)) {
             evaluation.setAnomalyFlagged(true);
         }

@@ -15,12 +15,15 @@ import EventsDiscovery from './components/EventsDiscovery';
 import ArchiveHub from './components/ArchiveHub';
 import ProjectsCockpit from './components/ProjectsCockpit';
 import UserProfile from './components/UserProfile';
+import SponsorPortal from './components/SponsorPortal';
+import MatchmakingBoard from './components/MatchmakingBoard';
+import CertificateVerifier from './components/CertificateVerifier';
 
 export default function App() {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard'); // Default Mission-Control after login
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
 
@@ -69,7 +72,6 @@ export default function App() {
         .catch(() => {});
     }
   }, []);
-
 
   const fetchSubmissions = async () => {
     setLoading(true);
@@ -226,6 +228,9 @@ export default function App() {
   // 2. AUTHENTICATED: Left Sidebar Navigation Menu Config
   const menuItems = [
     { id: 'dashboard', label: 'Mission Control', icon: '⚡', desc: 'Futuristic Event Operations Center' },
+    { id: 'matchmaking', label: 'Matchmaking Marketplace', icon: '🤝', desc: 'Find Teammates & Skill Cards' },
+    { id: 'sponsors', label: 'Sponsor Portal', icon: '🏢', desc: 'Candidate Sourcing & Sponsored Tracks' },
+    { id: 'certificates', label: 'Certificate Verifier', icon: '🏅', desc: 'W3C Open Badges & QR Verification' },
     { id: 'projects', label: 'My Projects', icon: '🚀', desc: 'Builder Workspace & Command Center' },
     { id: 'profile', label: 'My Profile', icon: '👤', desc: 'Developer Profile & Tech Stack' },
     { id: 'events', label: 'Events', icon: '📅', desc: 'Hackathons & Registrations' },
@@ -321,6 +326,12 @@ export default function App() {
               />
             )}
 
+            {activeTab === 'matchmaking' && <MatchmakingBoard />}
+
+            {activeTab === 'sponsors' && <SponsorPortal />}
+
+            {activeTab === 'certificates' && <CertificateVerifier />}
+
             {activeTab === 'projects' && <ProjectsCockpit submissions={submissions} />}
 
             {activeTab === 'profile' && (
@@ -356,8 +367,6 @@ export default function App() {
           </main>
 
         </div>
-
-
 
       </div>
 

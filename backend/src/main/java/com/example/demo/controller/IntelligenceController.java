@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AiReview;
 import com.example.demo.entity.GithubIntelligence;
+import com.example.demo.entity.PlagiarismReport;
 import com.example.demo.entity.Submission;
 import com.example.demo.repository.AiReviewRepository;
 import com.example.demo.repository.GithubIntelligenceRepository;
 import com.example.demo.repository.SubmissionRepository;
+import com.example.demo.service.AiAnalysisService;
+import com.example.demo.service.PlagiarismDetectionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +21,31 @@ public class IntelligenceController {
     private final SubmissionRepository submissionRepository;
     private final GithubIntelligenceRepository githubIntelligenceRepository;
     private final AiReviewRepository aiReviewRepository;
+    private final AiAnalysisService aiAnalysisService;
+    private final PlagiarismDetectionService plagiarismDetectionService;
 
     public IntelligenceController(SubmissionRepository submissionRepository,
                                   GithubIntelligenceRepository githubIntelligenceRepository,
-                                  AiReviewRepository aiReviewRepository) {
+                                  AiReviewRepository aiReviewRepository,
+                                  AiAnalysisService aiAnalysisService,
+                                  PlagiarismDetectionService plagiarismDetectionService) {
         this.submissionRepository = submissionRepository;
         this.githubIntelligenceRepository = githubIntelligenceRepository;
         this.aiReviewRepository = aiReviewRepository;
+        this.aiAnalysisService = aiAnalysisService;
+        this.plagiarismDetectionService = plagiarismDetectionService;
+    }
+
+    @PostMapping("/summarize/{submissionId}")
+    public ResponseEntity<?> summarizeSubmission(@PathVariable Long submissionId) {
+        Map<String, Object> summary = aiAnalysisService.summarizeSubmission(submissionId);
+        return ResponseEntity.ok(summary);
+    }
+
+    @PostMapping("/plagiarism-check/{submissionId}")
+    public ResponseEntity<?> runPlagiarismCheck(@PathVariable Long submissionId) {
+        PlagiarismReport report = plagiarismDetectionService.runPlagiarismCheck(submissionId);
+        return ResponseEntity.ok(report);
     }
 
     @PostMapping("/github/{submissionId}")
@@ -34,7 +55,6 @@ public class IntelligenceController {
             return ResponseEntity.notFound().build();
         }
 
-        // Simulate repository analysis based on stars & forks
         int stars = sub.getStars() != null ? sub.getStars() : 12;
         int forks = sub.getForks() != null ? sub.getForks() : 4;
         int commits = stars * 3 + 15;
@@ -76,7 +96,7 @@ public class IntelligenceController {
         double innovation = Math.min(100.0, rating * 10 + 5);
         double technical = Math.min(100.0, rating * 9.5 + 8);
         double docScore = 92.0;
-        double risk = 12.0; // Low risk
+        double risk = 12.0;
 
         AiReview review = aiReviewRepository.findBySubmissionId(submissionId)
                 .orElse(new AiReview());

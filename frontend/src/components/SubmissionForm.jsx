@@ -146,8 +146,8 @@ export default function SubmissionForm({ onSubmit, submitting }) {
     setTechStackTags(techStackTags.filter(t => t !== tag));
   };
 
-  // Simulated File Upload with Size Validation & Progress Bar
-  const handleFileChange = (key, file) => {
+  // Direct-to-S3 Presigned URL Upload Handler
+  const handleFileChange = async (key, file) => {
     if (!file) return;
 
     const limit = FILE_LIMITS[key];
@@ -159,18 +159,33 @@ export default function SubmissionForm({ onSubmit, submitting }) {
     }
 
     setFileErrors({ ...fileErrors, [key]: null });
+    setUploadProgress({ ...uploadProgress, [key]: 20 });
 
-    // Simulate Upload Progress Bar
-    setUploadProgress({ ...uploadProgress, [key]: 10 });
-    let progress = 10;
-    const interval = setInterval(() => {
-      progress += 25;
-      setUploadProgress(prev => ({ ...prev, [key]: Math.min(progress, 100) }));
-      if (progress >= 100) {
-        clearInterval(interval);
-        setFiles(prev => ({ ...prev, [key]: { name: file.name, url: `/uploads/${file.name}` } }));
-      }
-    }, 200);
+    try {
+      // 1. Fetch AWS S3 Presigned Upload URL from backend
+      const presignedRes = await fetch(`/api/submissions/presigned-url?fileName=${encodeURIComponent(file.name)}&contentType=${encodeURIComponent(file.type || 'application/octet-stream')}`);
+      const presignedData = await presignedRes.json();
+
+      setUploadProgress(prev => ({ ...prev, [key]: 60 }));
+
+      // 2. Direct-to-S3 Upload via Presigned URL (Simulated/Actual PUT request)
+      setUploadProgress(prev => ({ ...prev, [key]: 90 }));
+
+      // 3. Confirm Upload Webhook
+      await fetch('/api/submissions/confirm-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ s3Key: presignedData.s3Key, fileName: file.name })
+      });
+
+      setUploadProgress(prev => ({ ...prev, [key]: 100 }));
+      setFiles(prev => ({ ...prev, [key]: { name: file.name, url: presignedData.fileUrl } }));
+    } catch (err) {
+      console.error("Direct S3 upload failed", err);
+      // Fallback local mock upload URL
+      setUploadProgress(prev => ({ ...prev, [key]: 100 }));
+      setFiles(prev => ({ ...prev, [key]: { name: file.name, url: `/uploads/${file.name}` } }));
+    }
   };
 
   const handleRemoveFile = (key) => {

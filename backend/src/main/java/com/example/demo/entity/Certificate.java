@@ -27,6 +27,13 @@ public class Certificate {
 
     private LocalDateTime issuedAt;
 
+    @Column(columnDefinition = "TEXT")
+    private String badgeJson;
+
+    private String pdfUrl;
+
+    private String qrCodeUrl;
+
     public Certificate() {
         this.issuedAt = LocalDateTime.now();
     }
@@ -57,6 +64,15 @@ public class Certificate {
 
     public String getVerificationHash() { return verificationHash; }
     public void setVerificationHash(String verificationHash) { this.verificationHash = verificationHash; }
+
+    public String getBadgeJson() { return badgeJson; }
+    public void setBadgeJson(String badgeJson) { this.badgeJson = badgeJson; }
+
+    public String getPdfUrl() { return pdfUrl; }
+    public void setPdfUrl(String pdfUrl) { this.pdfUrl = pdfUrl; }
+
+    public String getQrCodeUrl() { return qrCodeUrl; }
+    public void setQrCodeUrl(String qrCodeUrl) { this.qrCodeUrl = qrCodeUrl; }
 
     public LocalDateTime getIssuedAt() { return issuedAt; }
     public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; }
